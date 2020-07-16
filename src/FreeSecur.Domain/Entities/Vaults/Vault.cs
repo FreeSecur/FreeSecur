@@ -15,17 +15,18 @@ namespace FreeSecur.Domain.Entities.Vaults
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey(nameof(CreatedByUser))]
         public int CreatedById { get; set; }
-        [ForeignKey(nameof(ModifiedByUser))]
         public int ModifiedById { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
+        [ForeignKey(nameof(CreatedById))]
+        public User CreatedByUser { get; set; }
+        [ForeignKey(nameof(ModifiedById))]
+        public User ModifiedByUser { get; set; }
         [Timestamp]
         public byte[] Timestamp { get; set; }
-        public User CreatedByUser { get; set; }
-        public User ModifiedByUser { get; set; }
 
+        [InverseProperty(nameof(VaultOwner.Vault))]
         public ICollection<VaultOwner> Owners { get; set; }
     }
 }

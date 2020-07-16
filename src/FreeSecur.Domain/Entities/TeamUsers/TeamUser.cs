@@ -34,7 +34,7 @@ namespace FreeSecur.Domain.Entities.TeamUsers
         [ForeignKey(nameof(TeamId))]
         public Team Team { get; set; }
 
-        //[InverseProperty(nameof(TeamUserRight.TeamUserId))]
+        [InverseProperty(nameof(TeamUserRight.TeamUser))]
         public ICollection<TeamUserRight> TeamUserRights { get; set; }
     }
 }

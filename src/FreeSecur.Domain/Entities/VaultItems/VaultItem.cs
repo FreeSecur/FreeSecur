@@ -14,21 +14,21 @@ namespace FreeSecur.Domain.VaultItems
     {
         [Key]
         public int Id { get; set; }
-        [ForeignKey(nameof(Vault))]
         public int VaultId { get; set; }
         public string Key { get; set; }
 
-        [ForeignKey(nameof(CreatedByUser))]
         public int CreatedById { get; set; }
-        [ForeignKey(nameof(ModifiedByUser))]
         public int ModifiedById { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
+        [ForeignKey(nameof(CreatedById))]
         public User CreatedByUser { get; set; }
+        [ForeignKey(nameof(ModifiedById))]
         public User ModifiedByUser { get; set; }
         [Timestamp]
         public byte[] Timestamp { get; set; }
 
+        [ForeignKey(nameof(VaultId))]
         public Vault Vault { get; set; }
     }
 }

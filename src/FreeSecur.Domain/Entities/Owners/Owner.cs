@@ -16,6 +16,7 @@ namespace FreeSecur.Domain.Entities.Owners
         [Timestamp]
         public byte[] Timestamp { get; set; }
 
+        [InverseProperty(nameof(VaultOwner.Owner))]
         public ICollection<VaultOwner> Vaults { get; set; }
     }
 }

@@ -12,17 +12,20 @@ namespace FreeSecur.Domain.Entities.VaultSecrets
 {
     public class VaultSecret : IFsTrackedEntity, IVaultItem
     {
-        [ForeignKey(nameof(VaultItem))]
+        [Key]
+        public int Id { get; set; }
+
         public int VaultItemId { get; set; }
+        [ForeignKey(nameof(VaultItemId))]
         public VaultItem VaultItem { get; set; }
 
-        [ForeignKey(nameof(CreatedByUser))]
         public int CreatedById { get; set; }
-        [ForeignKey(nameof(ModifiedByUser))]
         public int ModifiedById { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
+        [ForeignKey(nameof(CreatedById))]
         public User CreatedByUser { get; set; }
+        [ForeignKey(nameof(ModifiedById))]
         public User ModifiedByUser { get; set; }
         [Timestamp]
         public byte[] Timestamp { get; set; }

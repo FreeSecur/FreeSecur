@@ -14,22 +14,22 @@ namespace FreeSecur.Domain.Entities.Teams
         public int Id { get; set; }
         public string Name { get; set; }
 
-
-        [ForeignKey(nameof(CreatedByUser))]
         public int CreatedById { get; set; }
-        [ForeignKey(nameof(ModifiedByUser))]
         public int ModifiedById { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
+        [ForeignKey(nameof(CreatedById))]
         public User CreatedByUser { get; set; }
+        [ForeignKey(nameof(ModifiedById))]
         public User ModifiedByUser { get; set; }
         [Timestamp]
         public byte[] Timestamp { get; set; }
 
-        [ForeignKey(nameof(Owner))]
         public int OwnerId { get; set; }
+        [ForeignKey(nameof(OwnerId))]
         public Owner Owner { get; set; }
 
+        [InverseProperty(nameof(TeamUser.Team))]
         public ICollection<TeamUser> Users { get; set; }
     }
 }

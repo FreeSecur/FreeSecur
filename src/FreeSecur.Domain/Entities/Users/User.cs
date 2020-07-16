@@ -21,10 +21,11 @@ namespace FreeSecur.Domain.Entities.Users
 
         [Timestamp]
         public byte[] Timestamp { get; set; }
-        [ForeignKey(nameof(Owner))]
         public int OwnerId { get; set; }
+        [ForeignKey(nameof(OwnerId))]
         public Owner Owner { get; set; }
 
+        [InverseProperty(nameof(TeamUser.User))]
         public ICollection<TeamUser> Teams { get; set; }
     }
 }

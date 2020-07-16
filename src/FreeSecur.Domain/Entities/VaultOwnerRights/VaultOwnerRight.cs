@@ -14,21 +14,22 @@ namespace FreeSecur.Domain.Entities.VaultOwnerRights
     {
         [Key]
         public int Id { get; set; }
-        [ForeignKey(nameof(VaultOwner))]
         public int VaultOwnerId { get; set; }
         public VaultOwnerRightType AccessRight { get; set; }
 
-        [ForeignKey(nameof(CreatedByUser))]
         public int CreatedById { get; set; }
-        [ForeignKey(nameof(ModifiedByUser))]
         public int ModifiedById { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
+        [ForeignKey(nameof(CreatedById))]
+        public User CreatedByUser { get; set; }
+        [ForeignKey(nameof(ModifiedById))]
+        public User ModifiedByUser { get; set; }
         [Timestamp]
         public byte[] Timestamp { get; set; }
 
-        public User CreatedByUser { get; set; }
-        public User ModifiedByUser { get; set; }
+
+        [ForeignKey(nameof(VaultOwnerId))]
         public VaultOwner VaultOwner { get; set; }
     }
 }
