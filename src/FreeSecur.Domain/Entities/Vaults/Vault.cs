@@ -1,5 +1,7 @@
 ﻿using FreeSecur.Domain.Entities.Users;
 using FreeSecur.Domain.Entities.VaultOwners;
+using FreeSecur.Domain.VaultItems;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,6 +16,7 @@ namespace FreeSecur.Domain.Entities.Vaults
     {
         [Key]
         public int Id { get; set; }
+        public string Name { get; set; }
 
         public int CreatedById { get; set; }
         public int ModifiedById { get; set; }
@@ -28,5 +31,7 @@ namespace FreeSecur.Domain.Entities.Vaults
 
         [InverseProperty(nameof(VaultOwner.Vault))]
         public ICollection<VaultOwner> Owners { get; set; }
+        [InverseProperty(nameof(VaultItem.Vault))]
+        public ICollection<VaultItem> VaultItems { get; set; }
     }
 }

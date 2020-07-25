@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30223.230
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreeSecure.API", "FreeSecure\FreeSecure.API.csproj", "{9BF20477-38C5-4C7F-81A0-F178F6DB445E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreeSecur.Web", "FreeSecur.Web\FreeSecur.Web.csproj", "{2DB29155-9368-4F45-8283-AADEBA004E27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeSecur.Domain", "FreeSecur.Domain\FreeSecur.Domain.csproj", "{4118C3B1-BCEE-479B-85AD-EDB35702B432}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreeSecur.Domain", "FreeSecur.Domain\FreeSecur.Domain.csproj", "{4118C3B1-BCEE-479B-85AD-EDB35702B432}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeSecur.Core", "FreeSecur.Core\FreeSecur.Core.csproj", "{D6738F14-132B-4181-B5D2-29A760ED3B56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreeSecur.Core", "FreeSecur.Core\FreeSecur.Core.csproj", "{D6738F14-132B-4181-B5D2-29A760ED3B56}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreeSecure.API", "FreeSecure.API\FreeSecure.API.csproj", "{443C2903-073A-4557-ABBB-88D2EB0B8958}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9BF20477-38C5-4C7F-81A0-F178F6DB445E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9BF20477-38C5-4C7F-81A0-F178F6DB445E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9BF20477-38C5-4C7F-81A0-F178F6DB445E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9BF20477-38C5-4C7F-81A0-F178F6DB445E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2DB29155-9368-4F45-8283-AADEBA004E27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2DB29155-9368-4F45-8283-AADEBA004E27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DB29155-9368-4F45-8283-AADEBA004E27}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{D6738F14-132B-4181-B5D2-29A760ED3B56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6738F14-132B-4181-B5D2-29A760ED3B56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6738F14-132B-4181-B5D2-29A760ED3B56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{443C2903-073A-4557-ABBB-88D2EB0B8958}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{443C2903-073A-4557-ABBB-88D2EB0B8958}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{443C2903-073A-4557-ABBB-88D2EB0B8958}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{443C2903-073A-4557-ABBB-88D2EB0B8958}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

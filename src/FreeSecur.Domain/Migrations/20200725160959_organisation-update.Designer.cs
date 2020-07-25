@@ -4,14 +4,16 @@ using FreeSecur.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FreeSecur.Domain.Migrations
 {
     [DbContext(typeof(FsDbContext))]
-    partial class FsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200725160959_organisation-update")]
+    partial class organisationupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

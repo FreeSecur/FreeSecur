@@ -4,7 +4,7 @@
     {
         Create,
         Read,
-        Edit,
+        Update,
         Delete,
         Admin,
     }

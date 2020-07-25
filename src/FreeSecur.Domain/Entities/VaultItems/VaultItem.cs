@@ -1,5 +1,6 @@
 ﻿using FreeSecur.Domain.Entities.Users;
 using FreeSecur.Domain.Entities.Vaults;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace FreeSecur.Domain.VaultItems
 {
+    [Index(nameof(VaultId), nameof(Key), Name = "uk_vault_vaultid_key", IsUnique = true)]
     public class VaultItem : IFsTrackedEntity
     {
         [Key]

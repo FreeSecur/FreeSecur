@@ -2,9 +2,9 @@
 {
     public enum VaultOwnerRightType
     {
-        Create,
-        Read,
-        Update,
-        Delete
+        CreateSecrets,
+        ReadSecrets,
+        UpdateSecrets,
+        DeleteSecrets
     }
 }

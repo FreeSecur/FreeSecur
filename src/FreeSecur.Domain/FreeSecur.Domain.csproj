@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200725161609_organisation-update2.cs" />
+    <Compile Remove="Migrations\20200725161609_organisation-update2.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Entities\VaultOwners\VaultOwner.cs~RFb6a5e19.TMP" />
   </ItemGroup>
 

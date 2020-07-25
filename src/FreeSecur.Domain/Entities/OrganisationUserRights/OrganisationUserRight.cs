@@ -1,41 +1,34 @@
-﻿using FreeSecur.Domain.Entities.TeamUsers;
+﻿using FreeSecur.Domain.Entities.OrganisationUsers;
 using FreeSecur.Domain.Entities.Users;
-using FreeSecur.Domain.Entities.Owners;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using FreeSecur.Domain.Entities.Organisations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace FreeSecur.Domain.Entities.Teams
+namespace FreeSecur.Domain.Entities.OrganisationUserRights
 {
-    public class Team : IFsTrackedEntity, IOwner
+    public class OrganisationUserRight : IFsTrackedEntity
     {
         [Key]
         public int Id { get; set; }
-        public string Name { get; set; }
-        public int OrganisationId { get; set; }
-        [ForeignKey(nameof(OrganisationId))]
-        public Organisation Organisation { get; set; }
+        public int OrganisationUserId { get; set; }
+        public OrganisationUserRightType AccessRight { get; set; }
 
         public int CreatedById { get; set; }
         public int ModifiedById { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
         [ForeignKey(nameof(CreatedById))]
-        [Required]
         public User CreatedByUser { get; set; }
         [ForeignKey(nameof(ModifiedById))]
-        [Required]
         public User ModifiedByUser { get; set; }
         [Timestamp]
         public byte[] Timestamp { get; set; }
 
-        public int OwnerId { get; set; }
-        [ForeignKey(nameof(OwnerId))]
-        public Owner Owner { get; set; }
-
-        [InverseProperty(nameof(TeamUser.Team))]
-        public ICollection<TeamUser> Users { get; set; }
+        [ForeignKey(nameof(OrganisationUserId))]
+        public OrganisationUser OrganisationUser{ get; set; }
     }
 }
