@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FreeSecur.Domain.VaultItems
 {
-    [Index(nameof(VaultId), nameof(Key), Name = "uk_vault_vaultid_key", IsUnique = true)]
+    //[Index(nameof(VaultId), nameof(Key), Name = "uk_vault_vaultid_key", IsUnique = true)]
     public class VaultItem : IFsTrackedEntity
     {
         [Key]

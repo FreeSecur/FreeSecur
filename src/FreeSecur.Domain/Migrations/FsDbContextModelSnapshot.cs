@@ -26,8 +26,9 @@ namespace FreeSecur.Domain.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccessRight")
-                        .HasColumnType("int");
+                    b.Property<string>("AccessRight")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CreatedById")
                         .HasColumnType("int");
@@ -521,10 +522,7 @@ namespace FreeSecur.Domain.Migrations
 
                     b.HasIndex("ModifiedById");
 
-                    b.HasIndex("VaultId", "Key")
-                        .HasName("uk_vault_vaultid_key")
-                        .IsUnique()
-                        .HasFilter("[Key] IS NOT NULL");
+                    b.HasIndex("VaultId");
 
                     b.ToTable("VaultItems");
                 });
@@ -534,19 +532,19 @@ namespace FreeSecur.Domain.Migrations
                     b.HasOne("FreeSecur.Domain.Entities.Users.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.Entities.Users.User", "ModifiedByUser")
                         .WithMany()
                         .HasForeignKey("ModifiedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.Entities.OrganisationUsers.OrganisationUser", "OrganisationUser")
                         .WithMany("OrganisationUserRights")
                         .HasForeignKey("OrganisationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -555,31 +553,31 @@ namespace FreeSecur.Domain.Migrations
                     b.HasOne("FreeSecur.Domain.Entities.Users.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.Entities.Users.User", "ModifiedByUser")
                         .WithMany()
                         .HasForeignKey("ModifiedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.Entities.Organisations.Organisation", "Organisation")
                         .WithMany("Users")
                         .HasForeignKey("OrganistationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.Entities.Owners.Owner", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.Entities.Users.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -588,13 +586,13 @@ namespace FreeSecur.Domain.Migrations
                     b.HasOne("FreeSecur.Domain.Entities.Users.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.Entities.Users.User", "ModifiedByUser")
                         .WithMany()
                         .HasForeignKey("ModifiedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -603,19 +601,19 @@ namespace FreeSecur.Domain.Migrations
                     b.HasOne("FreeSecur.Domain.Entities.Users.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.Entities.Users.User", "ModifiedByUser")
                         .WithMany()
                         .HasForeignKey("ModifiedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.Entities.TeamUsers.TeamUser", "TeamUser")
                         .WithMany("TeamUserRights")
                         .HasForeignKey("TeamUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -624,25 +622,25 @@ namespace FreeSecur.Domain.Migrations
                     b.HasOne("FreeSecur.Domain.Entities.Users.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.Entities.Users.User", "ModifiedByUser")
                         .WithMany()
                         .HasForeignKey("ModifiedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.Entities.Teams.Team", "Team")
                         .WithMany("Users")
                         .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.Entities.Users.User", "User")
                         .WithMany("Teams")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -651,25 +649,25 @@ namespace FreeSecur.Domain.Migrations
                     b.HasOne("FreeSecur.Domain.Entities.Users.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.Entities.Users.User", "ModifiedByUser")
                         .WithMany()
                         .HasForeignKey("ModifiedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.Entities.Organisations.Organisation", "Organisation")
                         .WithMany("Teams")
                         .HasForeignKey("OrganisationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.Entities.Owners.Owner", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -678,7 +676,7 @@ namespace FreeSecur.Domain.Migrations
                     b.HasOne("FreeSecur.Domain.Entities.Owners.Owner", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -687,19 +685,19 @@ namespace FreeSecur.Domain.Migrations
                     b.HasOne("FreeSecur.Domain.Entities.Users.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.Entities.Users.User", "ModifiedByUser")
                         .WithMany()
                         .HasForeignKey("ModifiedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.Entities.VaultOwners.VaultOwner", "VaultOwner")
                         .WithMany("VaultOwnerRights")
                         .HasForeignKey("VaultOwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -708,25 +706,25 @@ namespace FreeSecur.Domain.Migrations
                     b.HasOne("FreeSecur.Domain.Entities.Users.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.Entities.Users.User", "ModifiedByUser")
                         .WithMany()
                         .HasForeignKey("ModifiedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.Entities.Owners.Owner", "Owner")
                         .WithMany("Vaults")
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.Entities.Vaults.Vault", "Vault")
                         .WithMany("Owners")
                         .HasForeignKey("VaultId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -735,19 +733,19 @@ namespace FreeSecur.Domain.Migrations
                     b.HasOne("FreeSecur.Domain.Entities.Users.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.Entities.Users.User", "ModifiedByUser")
                         .WithMany()
                         .HasForeignKey("ModifiedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.VaultItems.VaultItem", "VaultItem")
                         .WithMany()
                         .HasForeignKey("VaultItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -756,13 +754,13 @@ namespace FreeSecur.Domain.Migrations
                     b.HasOne("FreeSecur.Domain.Entities.Users.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.Entities.Users.User", "ModifiedByUser")
                         .WithMany()
                         .HasForeignKey("ModifiedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -771,19 +769,19 @@ namespace FreeSecur.Domain.Migrations
                     b.HasOne("FreeSecur.Domain.Entities.Users.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.Entities.Users.User", "ModifiedByUser")
                         .WithMany()
                         .HasForeignKey("ModifiedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FreeSecur.Domain.Entities.Vaults.Vault", "Vault")
                         .WithMany("VaultItems")
                         .HasForeignKey("VaultId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

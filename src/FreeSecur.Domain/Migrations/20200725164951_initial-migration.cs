@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FreeSecur.Domain.Migrations
 {
-    public partial class initial : Migration
+    public partial class initialmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -41,11 +41,11 @@ namespace FreeSecur.Domain.Migrations
                         column: x => x.OwnerId,
                         principalTable: "Owners",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Teams",
+                name: "Organisation",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -55,30 +55,23 @@ namespace FreeSecur.Domain.Migrations
                     ModifiedById = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
-                    OwnerId = table.Column<int>(type: "int", nullable: false)
+                    Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Teams", x => x.Id);
+                    table.PrimaryKey("PK_Organisation", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Teams_Owners_OwnerId",
-                        column: x => x.OwnerId,
-                        principalTable: "Owners",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Teams_Users_CreatedById",
+                        name: "FK_Organisation_Users_CreatedById",
                         column: x => x.CreatedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Teams_Users_ModifiedById",
+                        name: "FK_Organisation_Users_ModifiedById",
                         column: x => x.ModifiedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -87,6 +80,7 @@ namespace FreeSecur.Domain.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedById = table.Column<int>(type: "int", nullable: false),
                     ModifiedById = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -101,56 +95,107 @@ namespace FreeSecur.Domain.Migrations
                         column: x => x.CreatedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Vaults_Users_ModifiedById",
                         column: x => x.ModifiedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TeamUsers",
+                name: "OrganisationUser",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    TeamId = table.Column<int>(type: "int", nullable: false),
+                    OrganistationId = table.Column<int>(type: "int", nullable: false),
                     CreatedById = table.Column<int>(type: "int", nullable: false),
                     ModifiedById = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                    Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
+                    OwnerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeamUsers", x => x.Id);
+                    table.PrimaryKey("PK_OrganisationUser", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TeamUsers_Teams_TeamId",
-                        column: x => x.TeamId,
-                        principalTable: "Teams",
+                        name: "FK_OrganisationUser_Organisation_OrganistationId",
+                        column: x => x.OrganistationId,
+                        principalTable: "Organisation",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TeamUsers_Users_CreatedById",
+                        name: "FK_OrganisationUser_Owners_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "Owners",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_OrganisationUser_Users_CreatedById",
                         column: x => x.CreatedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TeamUsers_Users_ModifiedById",
+                        name: "FK_OrganisationUser_Users_ModifiedById",
                         column: x => x.ModifiedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TeamUsers_Users_UserId",
+                        name: "FK_OrganisationUser_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Teams",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrganisationId = table.Column<int>(type: "int", nullable: false),
+                    CreatedById = table.Column<int>(type: "int", nullable: false),
+                    ModifiedById = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
+                    OwnerId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Teams", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Teams_Organisation_OrganisationId",
+                        column: x => x.OrganisationId,
+                        principalTable: "Organisation",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Teams_Owners_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "Owners",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Teams_Users_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Teams_Users_ModifiedById",
+                        column: x => x.ModifiedById,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -175,19 +220,19 @@ namespace FreeSecur.Domain.Migrations
                         column: x => x.CreatedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_VaultItems_Users_ModifiedById",
                         column: x => x.ModifiedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_VaultItems_Vaults_VaultId",
                         column: x => x.VaultId,
                         principalTable: "Vaults",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -212,34 +257,34 @@ namespace FreeSecur.Domain.Migrations
                         column: x => x.OwnerId,
                         principalTable: "Owners",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_VaultOwners_Users_CreatedById",
                         column: x => x.CreatedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_VaultOwners_Users_ModifiedById",
                         column: x => x.ModifiedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_VaultOwners_Vaults_VaultId",
                         column: x => x.VaultId,
                         principalTable: "Vaults",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TeamUserRights",
+                name: "OrganisationUserRight",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TeamUserId = table.Column<int>(type: "int", nullable: false),
+                    OrganisationUserId = table.Column<int>(type: "int", nullable: false),
                     AccessRight = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedById = table.Column<int>(type: "int", nullable: false),
                     ModifiedById = table.Column<int>(type: "int", nullable: false),
@@ -249,25 +294,68 @@ namespace FreeSecur.Domain.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeamUserRights", x => x.Id);
+                    table.PrimaryKey("PK_OrganisationUserRight", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TeamUserRights_TeamUsers_TeamUserId",
-                        column: x => x.TeamUserId,
-                        principalTable: "TeamUsers",
+                        name: "FK_OrganisationUserRight_OrganisationUser_OrganisationUserId",
+                        column: x => x.OrganisationUserId,
+                        principalTable: "OrganisationUser",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TeamUserRights_Users_CreatedById",
+                        name: "FK_OrganisationUserRight_Users_CreatedById",
                         column: x => x.CreatedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TeamUserRights_Users_ModifiedById",
+                        name: "FK_OrganisationUserRight_Users_ModifiedById",
                         column: x => x.ModifiedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TeamUsers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    TeamId = table.Column<int>(type: "int", nullable: false),
+                    CreatedById = table.Column<int>(type: "int", nullable: false),
+                    ModifiedById = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TeamUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TeamUsers_Teams_TeamId",
+                        column: x => x.TeamId,
+                        principalTable: "Teams",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TeamUsers_Users_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TeamUsers_Users_ModifiedById",
+                        column: x => x.ModifiedById,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TeamUsers_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -291,19 +379,19 @@ namespace FreeSecur.Domain.Migrations
                         column: x => x.CreatedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_VaultSecrets_Users_ModifiedById",
                         column: x => x.ModifiedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_VaultSecrets_VaultItems_VaultItemId",
                         column: x => x.VaultItemId,
                         principalTable: "VaultItems",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -328,20 +416,107 @@ namespace FreeSecur.Domain.Migrations
                         column: x => x.CreatedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_VaultOwnerRights_Users_ModifiedById",
                         column: x => x.ModifiedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_VaultOwnerRights_VaultOwners_VaultOwnerId",
                         column: x => x.VaultOwnerId,
                         principalTable: "VaultOwners",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "TeamUserRights",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TeamUserId = table.Column<int>(type: "int", nullable: false),
+                    AccessRight = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedById = table.Column<int>(type: "int", nullable: false),
+                    ModifiedById = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TeamUserRights", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TeamUserRights_TeamUsers_TeamUserId",
+                        column: x => x.TeamUserId,
+                        principalTable: "TeamUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TeamUserRights_Users_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TeamUserRights_Users_ModifiedById",
+                        column: x => x.ModifiedById,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Organisation_CreatedById",
+                table: "Organisation",
+                column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Organisation_ModifiedById",
+                table: "Organisation",
+                column: "ModifiedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrganisationUser_CreatedById",
+                table: "OrganisationUser",
+                column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrganisationUser_ModifiedById",
+                table: "OrganisationUser",
+                column: "ModifiedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrganisationUser_OrganistationId",
+                table: "OrganisationUser",
+                column: "OrganistationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrganisationUser_OwnerId",
+                table: "OrganisationUser",
+                column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrganisationUser_UserId",
+                table: "OrganisationUser",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrganisationUserRight_CreatedById",
+                table: "OrganisationUserRight",
+                column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrganisationUserRight_ModifiedById",
+                table: "OrganisationUserRight",
+                column: "ModifiedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrganisationUserRight_OrganisationUserId",
+                table: "OrganisationUserRight",
+                column: "OrganisationUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Teams_CreatedById",
@@ -352,6 +527,11 @@ namespace FreeSecur.Domain.Migrations
                 name: "IX_Teams_ModifiedById",
                 table: "Teams",
                 column: "ModifiedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Teams_OrganisationId",
+                table: "Teams",
+                column: "OrganisationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Teams_OwnerId",
@@ -477,6 +657,9 @@ namespace FreeSecur.Domain.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "OrganisationUserRight");
+
+            migrationBuilder.DropTable(
                 name: "TeamUserRights");
 
             migrationBuilder.DropTable(
@@ -484,6 +667,9 @@ namespace FreeSecur.Domain.Migrations
 
             migrationBuilder.DropTable(
                 name: "VaultSecrets");
+
+            migrationBuilder.DropTable(
+                name: "OrganisationUser");
 
             migrationBuilder.DropTable(
                 name: "TeamUsers");
@@ -499,6 +685,9 @@ namespace FreeSecur.Domain.Migrations
 
             migrationBuilder.DropTable(
                 name: "Vaults");
+
+            migrationBuilder.DropTable(
+                name: "Organisation");
 
             migrationBuilder.DropTable(
                 name: "Users");

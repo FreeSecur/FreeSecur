@@ -1,4 +1,5 @@
-﻿using FreeSecur.Domain.Entities.Owners;
+﻿using FreeSecur.Domain.Entities.OrganisationUserRights;
+using FreeSecur.Domain.Entities.Owners;
 using FreeSecur.Domain.Entities.Teams;
 using FreeSecur.Domain.Entities.TeamUserRights;
 using FreeSecur.Domain.Entities.TeamUsers;
@@ -40,10 +41,16 @@ namespace FreeSecur.Domain
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
 
             modelBuilder.Entity<TeamUserRight>().Property(x => x.AccessRight).HasConversion(new EnumToStringConverter<TeamUserRightType>());
             modelBuilder.Entity<VaultOwnerRight>().Property(x => x.AccessRight).HasConversion(new EnumToStringConverter<VaultOwnerRightType>());
+            modelBuilder.Entity<OrganisationUserRight>().Property(x => x.AccessRight).HasConversion(new EnumToStringConverter<OrganisationUserRightType>());
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

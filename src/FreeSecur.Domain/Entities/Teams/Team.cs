@@ -23,10 +23,8 @@ namespace FreeSecur.Domain.Entities.Teams
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
         [ForeignKey(nameof(CreatedById))]
-        [Required]
         public User CreatedByUser { get; set; }
         [ForeignKey(nameof(ModifiedById))]
-        [Required]
         public User ModifiedByUser { get; set; }
         [Timestamp]
         public byte[] Timestamp { get; set; }
