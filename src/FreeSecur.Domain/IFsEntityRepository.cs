@@ -56,6 +56,6 @@ namespace FreeSecur.Domain
         /// <param name="entity"></param>
         /// <param name="userId"></param>
         /// <returns>Untracked created entity</returns>
-        Task<TEntity> AddOwner<TEntity>(TEntity entity, int userId) where TEntity : class, IFsEntity, IOwner;
+        Task<TEntity> AddOwner<TEntity>(TEntity entity, int? userId) where TEntity : class, IFsEntity, IOwner;
     }
 }

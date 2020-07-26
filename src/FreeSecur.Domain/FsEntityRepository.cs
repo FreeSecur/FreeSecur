@@ -12,11 +12,11 @@ namespace FreeSecur.Domain
 {
     internal class FsEntityRepository : IFsEntityRepository
     {
-        private DbContext _dbContext;
+        private FsDbContext _dbContext;
         private IDateTimeProvider _dateTimeProvider;
 
         public FsEntityRepository(
-            DbContext dbContext,
+            FsDbContext dbContext,
             IDateTimeProvider dateTimeProvider)
         {
             _dbContext = dbContext;
@@ -108,7 +108,7 @@ namespace FreeSecur.Domain
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<TEntity> AddOwner<TEntity>(TEntity entity, int userId)
+        public async Task<TEntity> AddOwner<TEntity>(TEntity entity, int? userId)
             where TEntity: class, IFsEntity, IOwner
         {
             var owner = new Owner
@@ -120,9 +120,9 @@ namespace FreeSecur.Domain
 
             if (entity is IFsTrackedEntity trackedEntity)
             {
-                trackedEntity.CreatedById = userId;
+                trackedEntity.CreatedById = userId.Value;
                 trackedEntity.CreatedOn = _dateTimeProvider.Now;
-                trackedEntity.ModifiedById = userId;
+                trackedEntity.ModifiedById = userId.Value;
                 trackedEntity.ModifiedOn = _dateTimeProvider.Now;
             }
 

@@ -40,7 +40,7 @@ namespace FreeSecure.API.ErrorHandling
 
             if (argumentValidationResults.Any())
             {
-                var errorResponse = new FsErrorDataResponse<List<FsValidationResult>>(ModelValidationErrorCode.InvalidModel, argumentValidationResults);
+                var errorResponse = new FsModelErrorResponse(argumentValidationResults);
                 var errorResult = new JsonResult(errorResponse);
                 errorResult.StatusCode = (int)HttpStatusCode.BadRequest;
                 var logger = loggerFactory.CreateLogger<FsValidationActionFilter>();

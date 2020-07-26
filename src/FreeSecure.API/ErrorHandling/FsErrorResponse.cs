@@ -2,13 +2,9 @@
 
 namespace FreeSecure.API.ErrorHandling
 {
-    public class FsErrorResponse
+    public interface IFsErrorResponse<TErrorCode>
+        where TErrorCode : struct
     {
-        public FsErrorResponse(
-            Enum errorCode)
-        {
-            ErrorCode = errorCode;
-        }
-        public Enum ErrorCode { get; }
+        TErrorCode ErrorCode { get; }
     }
 }

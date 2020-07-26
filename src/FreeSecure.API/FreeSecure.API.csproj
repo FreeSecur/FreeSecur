@@ -9,11 +9,13 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FreeSecur.Core\FreeSecur.Core.csproj" />
     <ProjectReference Include="..\FreeSecur.Domain\FreeSecur.Domain.csproj" />
+    <ProjectReference Include="..\FreeSecur.Logic\FreeSecur.Logic.csproj" />
   </ItemGroup>
 
 

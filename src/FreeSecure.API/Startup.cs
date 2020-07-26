@@ -13,6 +13,8 @@ using Microsoft.Extensions.Logging;
 using FreeSecur.Core;
 using FreeSecur.Domain;
 using FreeSecure.API.ErrorHandling;
+using FreeSecur.Logic;
+using FreeSecur.Core.Serialization;
 
 namespace FreeSecure
 {
@@ -30,14 +32,29 @@ namespace FreeSecure
         {
             services.AddFreeSecurCore();
             services.AddFreeSecurDomain(Configuration);
-            services.AddControllers(options => {
+            services.AddFreeSecurLogic(Configuration);
+
+            services.AddControllers(options =>
+            {
                 options.Filters.Add(new FsValidationActionFilter());
+            })
+            .AddJsonOptions(options =>
+            {
+                FsSerialization.ConfigureSerailizerOptions(options.JsonSerializerOptions);
             });
+
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.RoutePrefix = string.Empty;
+            });
+
             app.UseFreeSecurDomain();
 
             if (env.IsDevelopment())

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FreeSecur.Domain
 {
-    public static class FreeSecurDomain
+    public static class FsDomain
     {
         public static void AddFreeSecurDomain(
             this IServiceCollection services, 
@@ -22,6 +22,8 @@ namespace FreeSecur.Domain
             services.AddDbContextPool<FsDbContext>(options => {
                 options.UseSqlServer(settings.ConnectionString);
             });
+
+            services.AddTransient<IFsEntityRepository, FsEntityRepository>();
         }
 
         public static void UseFreeSecurDomain(

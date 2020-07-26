@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace FreeSecur.API.Utils
 {
-    public abstract class FsController : Controller
+    [ApiController]
+    public abstract class FsController : ControllerBase
     {
     }
 }

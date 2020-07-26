@@ -53,6 +53,7 @@ namespace FreeSecur.Core.Validation.Validator
             var reflectionInfo = _metadataReflectionService.GetReflectionInfo(mainType);
             var validationResults = reflectionInfo.Properties
                 .Select(property => ValidateProperty(property, model, index))
+                .Where(validationResult => !validationResult.IsValid)
                 .ToList();
 
             return validationResults;
