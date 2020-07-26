@@ -12,13 +12,11 @@ namespace FreeSecur.Core.Reflection
     {
         public MetadataReflectionService()
         {
-            _implementedTypesCache = new ConcurrentDictionary<Type, List<Type>>();
             _reflectionInfoTypesCache = new ConcurrentDictionary<Type, ReflectionInfo>();
             _metadataTypeCache = new ConcurrentDictionary<Type, Type>();
         }
 
         private static readonly Type _listType = typeof(IEnumerable);
-        private readonly ConcurrentDictionary<Type, List<Type>> _implementedTypesCache;
         private readonly ConcurrentDictionary<Type, ReflectionInfo> _reflectionInfoTypesCache;
         private readonly ConcurrentDictionary<Type, Type> _metadataTypeCache;
 
@@ -37,12 +35,6 @@ namespace FreeSecur.Core.Reflection
         {
             var reflectionInfo = _reflectionInfoTypesCache.GetOrAdd(type, BuildReflectionInfo);
             return reflectionInfo;
-        }
-
-        public List<Type> GetTypesThatImplement(Type baseType)
-        {
-            var typesWithBaseType = _implementedTypesCache.GetOrAdd(baseType, BuildTypesThatImplement);
-            return typesWithBaseType;
         }
 
         public Type GetMetadataType(Type classType)
@@ -92,45 +84,5 @@ namespace FreeSecur.Core.Reflection
 
             return metadataType;
         }
-
-        private List<Type> BuildTypesThatImplement(Type baseType)
-        {
-            var assemblies = new List<Assembly>();
-            var entryAssembly = Assembly.GetEntryAssembly();
-            assemblies.Add(entryAssembly);
-
-            foreach (var referenceAssembly in entryAssembly.GetReferencedAssemblies())
-            {
-                assemblies.Add(Assembly.Load(referenceAssembly));
-            }
-
-            var typesWithBaseType = new List<Type>();
-            foreach (var assembly in assemblies)
-            {
-
-                IEnumerable<Type> types;
-                try
-                {
-                    types = assembly.GetTypes();
-
-                }
-                catch (ReflectionTypeLoadException e)
-                {
-                    types = e.Types.Where(x => x != null);
-                }
-
-                var loadedTypes = from type in types
-                                  where baseType.IsAssignableFrom(type) &&
-                                      !type.IsInterface &&
-                                      !type.IsAbstract
-                                  select type;
-
-                typesWithBaseType.AddRange(loadedTypes);
-            };
-
-            return typesWithBaseType;
-        }
-
-        
     }
 }

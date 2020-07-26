@@ -97,17 +97,6 @@ namespace FreeSecur.Core.UnitTests.Reflection
             Assert.IsTrue(actual.Properties.Any(x => x.Property.Name == nameof(ComplexModel.Password)));
             Assert.AreEqual(nameof(FsMinLengthAttribute), attributeName);
         }
-
-        //TODO test this code scanner
-        //[TestMethod]
-        //public void G()
-        //{
-        //    var target = new MetadataReflectionService();
-        //    var type = typeof(ITest);
-        //    var actual = target.GetTypesThatImplement(type).Single();
-
-        //    Assert.AreEqual(nameof(TestModel), actual.Name);
-        //}
     }
 
     public interface ITest
