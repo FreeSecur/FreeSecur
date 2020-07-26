@@ -11,6 +11,6 @@ namespace FreeSecur.Core.Validation.Validator
         }
 
         public List<FsFieldValidationResult> FieldValidationResults { get; }
-        public bool IsValid => !FieldValidationResults.All(fieldValidationResult => fieldValidationResult.IsValid);
+        public bool IsValid => FieldValidationResults.All(fieldValidationResult => fieldValidationResult.IsValid);
     }
 }

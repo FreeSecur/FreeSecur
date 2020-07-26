@@ -62,12 +62,17 @@ namespace FreeSecur.Core.Reflection
             {
                 var metaProperty = metaDataType?.GetProperty(property.Name);
 
-                var customAttributesMeta = metaProperty.GetCustomAttributes(true).Select(attribute => (Attribute)attribute);
                 var customAttributes = property.GetCustomAttributes(true).Select(attribute => (Attribute)attribute);
 
                 var combinedAttributes = new List<Attribute>();
-                combinedAttributes.AddRange(customAttributesMeta);
                 combinedAttributes.AddRange(customAttributes);
+
+                if (metaProperty != null)
+                {
+                    var customAttributesMeta = metaProperty.GetCustomAttributes(true).Select(attribute => (Attribute)attribute);
+                    combinedAttributes.AddRange(customAttributesMeta);
+                }
+
 
                 return new ReflectionPropertyInfo(property, metaProperty, combinedAttributes);
             }).ToList();
