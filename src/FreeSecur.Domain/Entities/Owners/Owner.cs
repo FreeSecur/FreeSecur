@@ -12,6 +12,7 @@ namespace FreeSecur.Domain.Entities.Owners
     public class Owner : IFsEntity
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Timestamp]
         public byte[] Timestamp { get; set; }

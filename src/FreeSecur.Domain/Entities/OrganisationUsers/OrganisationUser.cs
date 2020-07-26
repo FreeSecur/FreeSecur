@@ -1,4 +1,5 @@
-﻿using FreeSecur.Domain.Entities.Organisations;
+﻿using FreeSecur.Core.Validation.Attributes;
+using FreeSecur.Domain.Entities.Organisations;
 using FreeSecur.Domain.Entities.OrganisationUserRights;
 using FreeSecur.Domain.Entities.Owners;
 using FreeSecur.Domain.Entities.Users;
@@ -15,13 +16,20 @@ namespace FreeSecur.Domain.Entities.OrganisationUsers
     public class OrganisationUser : IFsTrackedEntity, IOwner
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [FsRequired]
         public int UserId { get; set; }
+        [FsRequired]
         public int OrganistationId { get; set; }
 
+        [FsRequired]
         public int CreatedById { get; set; }
+        [FsRequired]
         public int ModifiedById { get; set; }
+        [FsRequired]
         public DateTime CreatedOn { get; set; }
+        [FsRequired]
         public DateTime ModifiedOn { get; set; }
         [ForeignKey(nameof(CreatedById))]
         public User CreatedByUser { get; set; }

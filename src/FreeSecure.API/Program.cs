@@ -18,6 +18,11 @@ namespace FreeSecure
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureLogging(loggingBuilder => 
+                {
+                    loggingBuilder.AddConsole();
+                    loggingBuilder.AddEventLog();
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

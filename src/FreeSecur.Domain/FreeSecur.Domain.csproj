@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -29,6 +29,10 @@
     <Compile Remove="Migrations\20200725164516_initial-migration.Designer.cs" />
     <Compile Remove="Migrations\20200725164859_initial-migration.cs" />
     <Compile Remove="Migrations\20200725164859_initial-migration.Designer.cs" />
+    <Compile Remove="Migrations\20200725170849_identity-columns-added.cs" />
+    <Compile Remove="Migrations\20200725170849_identity-columns-added.Designer.cs" />
+    <Compile Remove="Migrations\20200725171024_identity-columns-added.cs" />
+    <Compile Remove="Migrations\20200725171024_identity-columns-added.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using FreeSecur.Core;
 using FreeSecur.Domain;
+using FreeSecure.API.ErrorHandling;
 
 namespace FreeSecure
 {
@@ -29,7 +30,9 @@ namespace FreeSecure
         {
             services.AddFreeSecurCore();
             services.AddFreeSecurDomain(Configuration);
-            services.AddControllers();
+            services.AddControllers(options => {
+                options.Filters.Add(new FsValidationActionFilter());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

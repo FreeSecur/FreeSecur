@@ -1,4 +1,5 @@
-﻿using FreeSecur.Domain.Entities.Users;
+﻿using FreeSecur.Core.Validation.Attributes;
+using FreeSecur.Domain.Entities.Users;
 using FreeSecur.Domain.Entities.Vaults;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,17 +12,23 @@ using System.Threading.Tasks;
 
 namespace FreeSecur.Domain.VaultItems
 {
-    //[Index(nameof(VaultId), nameof(Key), Name = "uk_vault_vaultid_key", IsUnique = true)]
     public class VaultItem : IFsTrackedEntity
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [FsRequired]
         public int VaultId { get; set; }
+        [FsRequired]
         public string Key { get; set; }
 
+        [FsRequired]
         public int CreatedById { get; set; }
+        [FsRequired]
         public int ModifiedById { get; set; }
+        [FsRequired]
         public DateTime CreatedOn { get; set; }
+        [FsRequired]
         public DateTime ModifiedOn { get; set; }
         [ForeignKey(nameof(CreatedById))]
         public User CreatedByUser { get; set; }

@@ -1,4 +1,5 @@
-﻿using FreeSecur.Domain.Entities.Teams;
+﻿using FreeSecur.Core.Validation.Attributes;
+using FreeSecur.Domain.Entities.Teams;
 using FreeSecur.Domain.Entities.TeamUserRights;
 using FreeSecur.Domain.Entities.Users;
 using System;
@@ -14,13 +15,20 @@ namespace FreeSecur.Domain.Entities.TeamUsers
     public class TeamUser : IFsTrackedEntity
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [FsRequired]
         public int UserId { get; set; }
+        [FsRequired]
         public int TeamId { get; set; }
 
+        [FsRequired]
         public int CreatedById { get; set; }
+        [FsRequired]
         public int ModifiedById { get; set; }
+        [FsRequired]
         public DateTime CreatedOn { get; set; }
+        [FsRequired]
         public DateTime ModifiedOn { get; set; }
         [ForeignKey(nameof(CreatedById))]
         public User CreatedByUser { get; set; }
