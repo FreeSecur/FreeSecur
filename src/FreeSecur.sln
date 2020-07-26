@@ -11,7 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreeSecur.Core", "FreeSecur
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreeSecure.API", "FreeSecure.API\FreeSecure.API.csproj", "{443C2903-073A-4557-ABBB-88D2EB0B8958}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeSecur.Logic", "FreeSecur.Logic\FreeSecur.Logic.csproj", "{814877BA-82A2-4667-A06D-E38ADA231828}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreeSecur.Logic", "FreeSecur.Logic\FreeSecur.Logic.csproj", "{814877BA-82A2-4667-A06D-E38ADA231828}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{81044BE9-771B-48F6-BFF8-188235F0D01E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeSecur.Core.UnitTests", "Tests\FreeSecur.Core.UnitTests\FreeSecur.Core.UnitTests.csproj", "{51A9AEDE-2A69-4A15-9755-0124DB634957}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,9 +43,16 @@ Global
 		{814877BA-82A2-4667-A06D-E38ADA231828}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{814877BA-82A2-4667-A06D-E38ADA231828}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{814877BA-82A2-4667-A06D-E38ADA231828}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51A9AEDE-2A69-4A15-9755-0124DB634957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51A9AEDE-2A69-4A15-9755-0124DB634957}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51A9AEDE-2A69-4A15-9755-0124DB634957}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51A9AEDE-2A69-4A15-9755-0124DB634957}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{51A9AEDE-2A69-4A15-9755-0124DB634957} = {81044BE9-771B-48F6-BFF8-188235F0D01E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5987C7FE-4191-4BA0-8809-10ADA1BEA6D9}
