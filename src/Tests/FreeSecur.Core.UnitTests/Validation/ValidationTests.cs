@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace FreeSecur.Core.UnitTests.Validation
 {
@@ -32,7 +33,7 @@ namespace FreeSecur.Core.UnitTests.Validation
             var testModel = new TestModel("nice", complexModels);
 
             var validationResult = target.Validate(testModel);
-            var actual = validationResult.IsValid;
+            var actual = !validationResult.Any();
 
             Assert.IsTrue(actual);
         }
@@ -49,13 +50,12 @@ namespace FreeSecur.Core.UnitTests.Validation
 
             var validationResult = target.Validate(testModel);
 
-            var errorCode = validationResult
-                .FieldValidationResults[1]
-                .SubFieldValidationResults[3]
+            var errorCode = validationResult[0]
+                .SubFieldValidationResults[0]
                 .ErrorCodes[0];
 
             Assert.AreEqual(FieldValidationErrorCode.MinLength, errorCode);
-            Assert.IsFalse(validationResult.IsValid);
+            Assert.IsFalse(validationResult[0].IsValid);
         }
 
         [TestMethod]
@@ -67,12 +67,11 @@ namespace FreeSecur.Core.UnitTests.Validation
 
             var validationResult = target.Validate(complexModel);
 
-            var errorCode = validationResult
-                .FieldValidationResults[0]
+            var errorCode = validationResult[0]
                 .ErrorCodes[0];
 
             Assert.AreEqual(FieldValidationErrorCode.EmailAddress, errorCode);
-            Assert.IsFalse(validationResult.IsValid);
+            Assert.IsFalse(validationResult[0].IsValid);
         }
     }
 

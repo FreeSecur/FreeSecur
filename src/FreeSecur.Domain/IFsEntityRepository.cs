@@ -33,7 +33,7 @@ namespace FreeSecur.Domain
         /// <param name="entity"></param>
         /// <param name="userId"></param>
         /// <returns>Untracked updated entity</returns>
-        Task<TEntity> UpdateEntity<TEntity>(TEntity entity, int userId) where TEntity : class, IFsTrackedEntity;
+        Task<TEntity> UpdateEntity<TEntity>(TEntity entity, int? userId) where TEntity : class, IFsEntity;
         /// <summary>
         /// Attaches entity and adds entity to the database
         /// </summary>
@@ -41,7 +41,7 @@ namespace FreeSecur.Domain
         /// <param name="entity"></param>
         /// <param name="userId"></param>
         /// <returns>Untracked updated entity</returns>
-        Task<TEntity> AddEntity<TEntity>(TEntity entity, int userId) where TEntity : class, IFsTrackedEntity;
+        Task<TEntity> AddEntity<TEntity>(TEntity entity, int? userId) where TEntity : class, IFsEntity;
         /// <summary>
         /// Removes detached entity from database
         /// </summary>
@@ -57,5 +57,12 @@ namespace FreeSecur.Domain
         /// <param name="userId"></param>
         /// <returns>Untracked created entity</returns>
         Task<TEntity> AddOwner<TEntity>(TEntity entity, int? userId) where TEntity : class, IFsEntity, IOwner;
+        /// <summary>
+        /// Removes entity and removes owner from the database
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="whereClause"></param>
+        /// <returns></returns>
+        Task<TEntity> RemoveOwner<TEntity>(Expression<Func<TEntity, bool>> whereClause) where TEntity : class, IFsEntity, IOwner;
     }
 }

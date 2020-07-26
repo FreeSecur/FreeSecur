@@ -15,7 +15,7 @@ namespace FreeSecur.Core.Validation.Validator
             _metadataReflectionService = metadataReflectionService;
         }
 
-        public FsModelValidationResult Validate(object model)
+        public List<FsFieldValidationResult> Validate(object model)
         {
             var mainType = model.GetType();
             var validationResults = new List<FsFieldValidationResult>();
@@ -38,7 +38,7 @@ namespace FreeSecur.Core.Validation.Validator
                 validationResults.AddRange(singularObjectValidationResults);
             }
 
-            return new FsModelValidationResult(validationResults);
+            return validationResults;
         }
 
         private List<FsFieldValidationResult> ValidateSingularObject(object model)

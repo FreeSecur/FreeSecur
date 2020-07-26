@@ -12,7 +12,7 @@ using System.Net;
 
 namespace FreeSecure.API.ErrorHandling
 {
-    public class FsValidationActionFilter : IActionFilter
+    public class FsValidationFilter : IActionFilter
     {
         public void OnActionExecuted(ActionExecutedContext context)
         {
@@ -31,7 +31,7 @@ namespace FreeSecure.API.ErrorHandling
             {
                 var modelValidationResult = modelValidator.Validate(argument.Value);
 
-                if (!modelValidationResult.IsValid)
+                if (modelValidationResult.Any())
                 {
                     var validationResult = new FsValidationResult(argument.Key, modelValidationResult);
                     argumentValidationResults.Add(validationResult);
@@ -43,7 +43,7 @@ namespace FreeSecure.API.ErrorHandling
                 var errorResponse = new FsModelErrorResponse(argumentValidationResults);
                 var errorResult = new JsonResult(errorResponse);
                 errorResult.StatusCode = (int)HttpStatusCode.BadRequest;
-                var logger = loggerFactory.CreateLogger<FsValidationActionFilter>();
+                var logger = loggerFactory.CreateLogger<FsValidationFilter>();
                 logger.LogInformation($"Failed model validation: {serializer.Serialize(errorResponse)}");
                 context.Result = errorResult;
             }

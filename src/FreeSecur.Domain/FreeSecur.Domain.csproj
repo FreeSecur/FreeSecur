@@ -33,6 +33,8 @@
     <Compile Remove="Migrations\20200725170849_identity-columns-added.Designer.cs" />
     <Compile Remove="Migrations\20200725171024_identity-columns-added.cs" />
     <Compile Remove="Migrations\20200725171024_identity-columns-added.Designer.cs" />
+    <Compile Remove="Migrations\20200726143819_added-username.cs" />
+    <Compile Remove="Migrations\20200726143819_added-username.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

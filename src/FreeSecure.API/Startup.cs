@@ -1,20 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using FreeSecur.Core;
 using FreeSecur.Domain;
 using FreeSecure.API.ErrorHandling;
 using FreeSecur.Logic;
 using FreeSecur.Core.Serialization;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using FreeSecure.API.Utils;
 
 namespace FreeSecure
 {
@@ -36,12 +32,15 @@ namespace FreeSecure
 
             services.AddControllers(options =>
             {
-                options.Filters.Add(new FsValidationActionFilter());
+                options.Filters.Add(new FsExceptionFilter());
+                options.Filters.Add(new FsValidationFilter());
             })
             .AddJsonOptions(options =>
             {
                 FsSerialization.ConfigureSerailizerOptions(options.JsonSerializerOptions);
             });
+
+            services.TryAddEnumerable(ServiceDescriptor.Transient<IApplicationModelProvider, ProduceResponseTypeProvider>());
 
             services.AddSwaggerGen();
         }
@@ -51,7 +50,7 @@ namespace FreeSecure
         {
             app.UseSwagger();
             app.UseSwaggerUI(c => {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "FreeSecur API v1");
                 c.RoutePrefix = string.Empty;
             });
 

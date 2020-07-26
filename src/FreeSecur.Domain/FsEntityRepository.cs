@@ -58,12 +58,15 @@ namespace FreeSecur.Domain
 
         public async Task<TEntity> UpdateEntity<TEntity>(
             TEntity entity,
-            int userId)
-            where TEntity : class, IFsTrackedEntity
+            int? userId)
+            where TEntity : class, IFsEntity
         {
 
-            entity.ModifiedById = userId;
-            entity.ModifiedOn = _dateTimeProvider.Now;
+            if (entity is IFsTrackedEntity trackedEntity)
+            {
+                trackedEntity.ModifiedById = userId.Value;
+                trackedEntity.ModifiedOn = _dateTimeProvider.Now;
+            }
 
             var entry = _dbContext.Update(entity);
 
@@ -84,14 +87,16 @@ namespace FreeSecur.Domain
         
         public async Task<TEntity> AddEntity<TEntity>(
             TEntity entity,
-            int userId)
-            where TEntity : class, IFsTrackedEntity
+            int? userId)
+            where TEntity : class, IFsEntity
         {
-
-            entity.CreatedById = userId;
-            entity.CreatedOn = _dateTimeProvider.Now;
-            entity.ModifiedById = userId;
-            entity.ModifiedOn = _dateTimeProvider.Now;
+            if (entity is IFsTrackedEntity trackedEntity)
+            {
+                trackedEntity.CreatedById = userId.Value;
+                trackedEntity.CreatedOn = _dateTimeProvider.Now;
+                trackedEntity.ModifiedById = userId.Value;
+                trackedEntity.ModifiedOn = _dateTimeProvider.Now;
+            }
 
             _dbContext.Add(entity);
             await _dbContext.SaveChangesAsync();
@@ -106,6 +111,26 @@ namespace FreeSecur.Domain
         {
             _dbContext.Remove(entity);
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<TEntity> RemoveOwner<TEntity>(Expression<Func<TEntity, bool>> whereClause)
+            where TEntity : class, IFsEntity, IOwner
+        {
+            var dbSet = _dbContext.Set<TEntity>();
+
+            var entityToRemove = await dbSet.Where(whereClause).Include(x => x.Owner).SingleOrDefaultAsync();
+
+            if (entityToRemove == null)
+            {
+                return null;
+            }
+
+            _dbContext.Remove(entityToRemove);
+            _dbContext.Remove(entityToRemove.Owner);
+
+            await _dbContext.SaveChangesAsync();
+
+            return entityToRemove;
         }
 
         public async Task<TEntity> AddOwner<TEntity>(TEntity entity, int? userId)

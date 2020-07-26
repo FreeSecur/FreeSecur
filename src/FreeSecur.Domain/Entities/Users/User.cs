@@ -8,9 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FreeSecur.Core.Validation.Attributes;
+using Microsoft.EntityFrameworkCore;
 
 namespace FreeSecur.Domain.Entities.Users
 {
+    [Index(nameof(Username), IsUnique = true)]
     public class User : IOwner, IFsEntity
     {
         [Key]
@@ -19,6 +21,9 @@ namespace FreeSecur.Domain.Entities.Users
         [FsRequired]
         [FsEmailAddress]
         public string Email { get; set; }
+        [FsRequired]
+        public string Username { get; set; }
+
         [FsRequired]
         [FsMinLength(10)]
         public string Password { get; set; }
