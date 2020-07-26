@@ -17,7 +17,6 @@ namespace FreeSecur.Domain
             IConfiguration configuration)
         {
             var settingsSection = configuration.GetSection(nameof(FsDomainSettings));
-
             var settings = settingsSection.Get<FsDomainSettings>();
 
             services.AddDbContextPool<FsDbContext>(options => {

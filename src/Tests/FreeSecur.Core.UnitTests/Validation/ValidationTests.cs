@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace FreeSecur.Core.UnitTests
+namespace FreeSecur.Core.UnitTests.Validation
 {
     [TestClass]
     public class ValidationTests
@@ -32,8 +32,9 @@ namespace FreeSecur.Core.UnitTests
             var testModel = new TestModel("nice", complexModels);
 
             var validationResult = target.Validate(testModel);
+            var actual = validationResult.IsValid;
 
-            Assert.IsTrue(validationResult.IsValid);
+            Assert.IsTrue(actual);
         }
 
         [TestMethod]

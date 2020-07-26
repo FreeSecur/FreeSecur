@@ -39,7 +39,7 @@ namespace FreeSecur.Core.Reflection
             return reflectionInfo;
         }
 
-        public List<Type> LoadTypesThatImplement(Type baseType)
+        public List<Type> GetTypesThatImplement(Type baseType)
         {
             var typesWithBaseType = _implementedTypesCache.GetOrAdd(baseType, BuildTypesThatImplement);
             return typesWithBaseType;
