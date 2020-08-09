@@ -10,14 +10,8 @@ using FreeSecur.Domain.Entities.Vaults;
 using FreeSecur.Domain.Entities.VaultSecrets;
 using FreeSecur.Domain.VaultItems;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FreeSecur.Domain
 {

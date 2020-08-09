@@ -1,13 +1,8 @@
 ﻿using FreeSecur.API.Utils;
-using FreeSecur.Core;
 using FreeSecur.Logic.UserLogic;
 using FreeSecur.Logic.UserLogic.Models;
-using FreeSecure.API.ErrorHandling;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 

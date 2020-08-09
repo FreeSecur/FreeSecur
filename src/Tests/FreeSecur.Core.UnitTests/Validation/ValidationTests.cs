@@ -2,9 +2,7 @@
 using FreeSecur.Core.Validation;
 using FreeSecur.Core.Validation.Attributes;
 using FreeSecur.Core.Validation.Validator;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,12 +13,10 @@ namespace FreeSecur.Core.UnitTests.Validation
     public class ValidationTests
     {
         private MetadataReflectionService _metadataReflectionService;
-
         public ValidationTests()
         {
             _metadataReflectionService = new MetadataReflectionService();
         }
-
 
         [TestMethod]
         public void ValidationShouldSucceed()

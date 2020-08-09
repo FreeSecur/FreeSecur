@@ -1,14 +1,9 @@
 ﻿using FreeSecur.Core.Validation.Attributes;
 using FreeSecur.Domain.Entities.Users;
 using FreeSecur.Domain.Entities.Vaults;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FreeSecur.Domain.VaultItems
 {

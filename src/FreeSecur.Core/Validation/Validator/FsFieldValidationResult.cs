@@ -43,7 +43,6 @@ namespace FreeSecur.Core.Validation.Validator
         public List<FieldValidationErrorCode> ErrorCodes { get; }
         public List<FsFieldValidationResult> SubFieldValidationResults { get; }
         public int? Index { get; }
-
         public bool IsValid => !ErrorCodes.Any() && SubFieldValidationResults.All(x => x.IsValid);
     }
 }

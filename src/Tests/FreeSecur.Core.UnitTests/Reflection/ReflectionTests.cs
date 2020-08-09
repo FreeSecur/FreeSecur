@@ -1,8 +1,5 @@
 ﻿using FreeSecur.Core.Reflection;
-using FreeSecur.Core.Validation;
 using FreeSecur.Core.Validation.Attributes;
-using FreeSecur.Core.Validation.Validator;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -14,10 +11,6 @@ namespace FreeSecur.Core.UnitTests.Reflection
     [TestClass]
     public class ReflectionTests
     {
-        public ReflectionTests()
-        {
-        }
-
         [TestMethod]
         public void GetElementTypeShouldReturnElementType()
         {
@@ -103,7 +96,6 @@ namespace FreeSecur.Core.UnitTests.Reflection
     {
 
     }
-
     internal class TestModel : ITest
     {
         public TestModel(string requiredField, List<ComplexModel> complexFields)

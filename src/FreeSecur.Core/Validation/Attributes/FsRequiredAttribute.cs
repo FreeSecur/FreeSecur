@@ -1,10 +1,4 @@
-﻿using FreeSecur.Core.Validation;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace FreeSecur.Core.Validation.Attributes
 {
@@ -12,6 +6,5 @@ namespace FreeSecur.Core.Validation.Attributes
     {
         public FieldValidationErrorCode GetErrorCode()
             => FieldValidationErrorCode.Required;
-
     }
 }

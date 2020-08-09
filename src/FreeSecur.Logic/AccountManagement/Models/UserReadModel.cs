@@ -1,5 +1,4 @@
 ﻿using FreeSecur.Domain.Entities.Users;
-using System.ComponentModel.DataAnnotations;
 
 namespace FreeSecur.Logic.UserLogic.Models
 {

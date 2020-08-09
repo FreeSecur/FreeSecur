@@ -18,6 +18,5 @@ namespace FreeSecur.Core.Reflection
         public PropertyInfo Property { get; }
         public PropertyInfo MetaPropery { get; }
         public List<Attribute> CustomAttributes { get; }
-
     }
 }

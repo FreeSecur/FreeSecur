@@ -1,11 +1,7 @@
 ﻿using FreeSecure.API.ErrorHandling;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace FreeSecure.API.Utils
 {

@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace FreeSecur.Core.Cryptography
 {
     public class AesEncryptionModule : IEncryptionModule
     {
-
         public string Encrypt(string plainText, string key)
         {
             var keys = GetHashKeys(key);
@@ -35,7 +31,6 @@ namespace FreeSecur.Core.Cryptography
                 return Convert.ToBase64String(encryptedBytes);
             }
         }
-
 
         public string Decrypt(string encryptedText, string key)
         {
