@@ -24,13 +24,13 @@ namespace FreeSecur.Core.Cryptography
             if (string.IsNullOrEmpty(plainText))
                 throw new ArgumentNullException(nameof(plainText));
 
-            using (MemoryStream msEncrypt = new MemoryStream())
-            using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+            using (var encryptMemoryStream = new MemoryStream())
+            using (var encryptCryptoStream = new CryptoStream(encryptMemoryStream, encryptor, CryptoStreamMode.Write))
             {
                 var plainBytes = Encoding.UTF8.GetBytes(plainText);
-                csEncrypt.Write(plainBytes, 0, plainBytes.Length);
-                csEncrypt.FlushFinalBlock();
-                var encryptedBytes = msEncrypt.ToArray();
+                encryptCryptoStream.Write(plainBytes, 0, plainBytes.Length);
+                encryptCryptoStream.FlushFinalBlock();
+                var encryptedBytes = encryptMemoryStream.ToArray();
 
                 return Convert.ToBase64String(encryptedBytes);
             }
@@ -55,10 +55,9 @@ namespace FreeSecur.Core.Cryptography
             if (encryptedBytes == null || encryptedBytes.Length <= 0)
                 throw new ArgumentNullException("cipherText");
 
-
-            using (MemoryStream decryptMemoryStream = new MemoryStream(encryptedBytes))
-            using (CryptoStream decryptoStream = new CryptoStream(decryptMemoryStream, decryptor, CryptoStreamMode.Read))
-            using (StreamReader decryptedStreamReader = new StreamReader(decryptoStream))
+            using (var decryptMemoryStream = new MemoryStream(encryptedBytes))
+            using (var decryptoStream = new CryptoStream(decryptMemoryStream, decryptor, CryptoStreamMode.Read))
+            using (var decryptedStreamReader = new StreamReader(decryptoStream))
             {
                 try
                 {
@@ -79,12 +78,12 @@ namespace FreeSecur.Core.Cryptography
             if (IV == null || IV.Length <= 0)
                 throw new ArgumentNullException("IV");
 
-            using (AesManaged aesAlg = new AesManaged())
+            using (var aes = new AesManaged())
             {
-                aesAlg.Key = Key;
-                aesAlg.IV = IV;
+                aes.Key = Key;
+                aes.IV = IV;
 
-                var encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
+                var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
                 return encryptor;
             }
         }
@@ -96,7 +95,7 @@ namespace FreeSecur.Core.Cryptography
             if (IV == null || IV.Length <= 0)
                 throw new ArgumentNullException("IV");
 
-            using (Aes aes = Aes.Create())
+            using (var aes = Aes.Create())
             {
                 aes.Key = Key;
                 aes.IV = IV;
