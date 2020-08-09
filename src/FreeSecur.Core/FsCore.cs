@@ -1,4 +1,5 @@
-﻿using FreeSecur.Core.Reflection;
+﻿using FreeSecur.Core.Cryptography;
+using FreeSecur.Core.Reflection;
 using FreeSecur.Core.Serialization;
 using FreeSecur.Core.Validation.Validator;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +26,9 @@ namespace FreeSecur.Core
             services.AddSingleton<IFsSerializer>(
                 (serviceProvider) => new FsJsonSerializer(fsOptions.JsonSerializerOptions));
 
-            services.AddTransient<IDateTimeProvider, DateTimeProvider>();
+            services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+            services.AddSingleton<IEncryptionModule, AesEncryptionModule>();
+            services.AddSingleton<IHashModule, BCryptHashModule>();
         }
     }
 }
