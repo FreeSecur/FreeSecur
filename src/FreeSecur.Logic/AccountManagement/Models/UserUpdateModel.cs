@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace FreeSecur.Logic.UserLogic.Models
 {
     [MetadataType(typeof(User))]
-    public class UserEditModel
+    public class UserUpdateModel
     {
         public string Email { get; set; }
         public string FirstName { get; set; }

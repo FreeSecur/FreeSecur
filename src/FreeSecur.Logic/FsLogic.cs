@@ -15,7 +15,7 @@ namespace FreeSecur.Logic
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            services.AddTransient<UserService>();
+            services.AddTransient<AccountManagementService>();
         }
     }
 }

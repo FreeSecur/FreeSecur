@@ -20,6 +20,9 @@ namespace FreeSecur.Domain.Entities.Vaults
         public int Id { get; set; }
         [FsRequired]
         public string Name { get; set; }
+        [FsRequired]
+        [FsMinLength(10)]
+        public string MasterKey { get; set; }
 
         [FsRequired]
         public int CreatedById { get; set; }

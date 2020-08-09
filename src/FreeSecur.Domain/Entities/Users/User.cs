@@ -31,6 +31,8 @@ namespace FreeSecur.Domain.Entities.Users
         public string FirstName { get; set; }
         [FsRequired]
         public string LastName { get; set; }
+        [FsRequired]
+        public bool IsEmailConfirmed { get; set; }
 
         [Timestamp]
         public byte[] Timestamp { get; set; }
