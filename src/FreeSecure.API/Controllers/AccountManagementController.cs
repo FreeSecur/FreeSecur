@@ -18,22 +18,13 @@ namespace FreeSecure.API.Controllers
             _accountManagementService = userService;
         }
 
-        [HttpPost]
+        [HttpPost("Register")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Created user id", typeof(int))]
         public async Task<int> Register([FromBody] UserRegistrationModel registrationModel)
         {
             var user = await _accountManagementService.Register(registrationModel);
 
             return user.Id;
-        }
-
-        [HttpPut("{id}")]
-        [SwaggerResponse((int)HttpStatusCode.OK, "Updated user model", typeof(UserReadModel))]
-        public async Task<UserReadModel> Update([FromRoute] int id, [FromBody] UserUpdateModel userEditModel)
-        {
-            var updatedUser = await _accountManagementService.UpdatePersonalData(id, userEditModel);
-
-            return updatedUser;
         }
     }
 }
