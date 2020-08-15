@@ -7,6 +7,7 @@ using FreeSecur.Domain;
 using FreeSecur.Domain.Entities.Users;
 using FreeSecur.Logic.AccountManagement.Mail;
 using FreeSecur.Logic.AccountManagement.MailModels;
+using FreeSecur.Logic.AccountManagement.Models;
 using FreeSecur.Logic.UserLogic.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -65,7 +66,7 @@ namespace FreeSecur.Logic.UserLogic
             await _entityRepository.UpdateEntity(user, null);
         }
 
-        public async Task<User> Register(UserRegistrationModel userRegistrationModel)
+        public async Task<UserRegistrationResponseModel> Register(UserRegistrationModel userRegistrationModel)
         {
             var passwordHash = _hashService.GetHash(userRegistrationModel.Password);
 
@@ -87,20 +88,27 @@ namespace FreeSecur.Logic.UserLogic
                 var user = await _entityRepository.AddOwner(userToCreate, null);
                 try
                 {
-                    await SendConfirmEmailMail(userToCreate, userRegistrationModel.ConfirmationUrl);
+                    var confirmationKey = await SendConfirmEmailMail(userToCreate, userRegistrationModel.ConfirmationUrl);
+
+                    await transaction.CommitAsync();
+
+                    return new UserRegistrationResponseModel(user.Id, confirmationKey);
                 }
                 catch
                 {
                     await transaction.RollbackAsync();
                     throw;
                 }
-
-                await transaction.CommitAsync();
-                return user;
             }
         }
 
-        public async Task SendConfirmEmailMail(User userToCreate, string confirmationUrl)
+        /// <summary>
+        /// Return the key that has been send
+        /// </summary>
+        /// <param name="userToCreate"></param>
+        /// <param name="confirmationUrl"></param>
+        /// <returns></returns>
+        public async Task<string> SendConfirmEmailMail(User userToCreate, string confirmationUrl)
         {
             var userReadModel = new UserReadModel(userToCreate);
             var confirmationKey = _encryptionService.EncryptModel(userReadModel);
@@ -111,6 +119,8 @@ namespace FreeSecur.Logic.UserLogic
             var message = new FsMailMessage<ConfirmationMailModel>(userToCreate.Email, MailResources.ConfirmEmail_Subject, MailResources.ConfirmEmail_Body, confirmationMailModel);
 
             await _mailService.SendMail(message);
+
+            return encodedConfirmationKey;
         }
 
         public async Task<UserReadModel> UpdatePersonalData(int id, UserUpdateModel userUpdateModel)

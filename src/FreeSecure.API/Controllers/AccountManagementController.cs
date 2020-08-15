@@ -1,6 +1,7 @@
 ﻿using FreeSecur.API.Utils;
 using FreeSecur.Core.ExceptionHandling.Exceptions;
 using FreeSecur.Core.Url;
+using FreeSecur.Logic.AccountManagement.Models;
 using FreeSecur.Logic.UserLogic;
 using FreeSecur.Logic.UserLogic.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -25,11 +26,11 @@ namespace FreeSecure.API.Controllers
 
         [HttpPost("Register")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Created user id", typeof(int))]
-        public async Task<int> Register([FromBody] UserRegistrationModel registrationModel)
+        public async Task<UserRegistrationResponseModel> Register([FromBody] UserRegistrationModel registrationModel)
         {
             var user = await _accountManagementService.Register(registrationModel);
 
-            return user.Id;
+            return user;
         }
 
         [HttpPatch("ConfirmEmail")]
