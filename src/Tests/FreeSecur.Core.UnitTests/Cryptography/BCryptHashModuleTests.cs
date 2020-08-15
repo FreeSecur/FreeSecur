@@ -10,7 +10,7 @@ namespace FreeSecur.Core.UnitTests.Cryptography
         public void CanVerifyStringWithSameText()
         {
             var plainText = "beautiful";
-            var target = new BCryptHashModule();
+            var target = new BCryptHashService();
             var hash = target.GetHash(plainText);
 
             var actual = target.Verify(plainText, hash);
@@ -22,7 +22,7 @@ namespace FreeSecur.Core.UnitTests.Cryptography
         public void CannotVerifyStringWithDifferentHash()
         {
             var plainText = "beautiful";
-            var target = new BCryptHashModule();
+            var target = new BCryptHashService();
             var hash = target.GetHash(plainText);
 
             var actual = target.Verify("Not so good", hash);

@@ -4,6 +4,7 @@
     {
         Required,
         MinLength,
-        EmailAddress
+        EmailAddress,
+        Url
     }
 }

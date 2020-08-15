@@ -12,16 +12,16 @@ namespace FreeSecur.Core.UnitTests.Validation
     [TestClass]
     public class ValidationTests
     {
-        private MetadataReflectionService _metadataReflectionService;
+        private ReflectionService _reflectionService;
         public ValidationTests()
         {
-            _metadataReflectionService = new MetadataReflectionService();
+            _reflectionService = new ReflectionService();
         }
 
         [TestMethod]
         public void ValidationShouldSucceed()
         {
-            var target = new FsModelValidator(_metadataReflectionService);
+            var target = new FsModelValidator(_reflectionService);
 
             var complexModel1 = new ComplexModel("test@test.nl", "aaaaaaaaaaa");
             var complexModel2 = new ComplexModel("test@tes2.nl", "bbbbbbbbbbb");
@@ -37,7 +37,7 @@ namespace FreeSecur.Core.UnitTests.Validation
         [TestMethod]
         public void ListValidationShouldFailWithErrorCode()
         {
-            var target = new FsModelValidator(_metadataReflectionService);
+            var target = new FsModelValidator(_reflectionService);
 
             var complexModel1 = new ComplexModel("test@test.nl", "aaaaaaaaaaa");
             var complexModel2 = new ComplexModel("test@tes2.nl", "bbbb");
@@ -57,7 +57,7 @@ namespace FreeSecur.Core.UnitTests.Validation
         [TestMethod]
         public void EmailValidationShouldFailWithErrorCode()
         {
-            var target = new FsModelValidator(_metadataReflectionService);
+            var target = new FsModelValidator(_reflectionService);
 
             var complexModel = new ComplexModel("notavalidmail", "bbbbbbbbbbb");
 

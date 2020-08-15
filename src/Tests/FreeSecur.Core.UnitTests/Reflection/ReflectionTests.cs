@@ -16,7 +16,7 @@ namespace FreeSecur.Core.UnitTests.Reflection
         {
             var listType = typeof(List<ComplexModel>);
 
-            var target = new MetadataReflectionService();
+            var target = new ReflectionService();
 
             var actual = target.GetElementType(listType);
             var expected = typeof(ComplexModel);
@@ -29,7 +29,7 @@ namespace FreeSecur.Core.UnitTests.Reflection
         {
             var classType = typeof(ComplexModel);
 
-            var target = new MetadataReflectionService();
+            var target = new ReflectionService();
 
             Assert.ThrowsException<ArgumentException>(() => target.GetElementType(classType));
         }
@@ -37,7 +37,7 @@ namespace FreeSecur.Core.UnitTests.Reflection
         [TestMethod]
         public void ListShouldReturnIsCollection()
         {
-            var target = new MetadataReflectionService();
+            var target = new ReflectionService();
 
             var listType = typeof(List<ComplexModel>);
 
@@ -49,7 +49,7 @@ namespace FreeSecur.Core.UnitTests.Reflection
         [TestMethod]
         public void StringShouldNotReturnIsCollection()
         {
-            var target = new MetadataReflectionService();
+            var target = new ReflectionService();
             var stringType = typeof(string);
             var actual = target.IsCollection(stringType);
 
@@ -59,7 +59,7 @@ namespace FreeSecur.Core.UnitTests.Reflection
         [TestMethod]
         public void GetMetadataTypeShouldReturnType()
         {
-            var target = new MetadataReflectionService();
+            var target = new ReflectionService();
             var type = typeof(ComplexModel);
             var actual = target.GetMetadataType(type);
             var expected = typeof(ComplexMetadata);
@@ -69,7 +69,7 @@ namespace FreeSecur.Core.UnitTests.Reflection
         [TestMethod]
         public void GetMetadataTypeShouldNotReturnType()
         {
-            var target = new MetadataReflectionService();
+            var target = new ReflectionService();
             var type = typeof(TestModel);
             var actual = target.GetMetadataType(type);
             Assert.IsNull(actual);
@@ -78,7 +78,7 @@ namespace FreeSecur.Core.UnitTests.Reflection
         [TestMethod]
         public void GetMetadataTypeShouldNostReturnType()
         {
-            var target = new MetadataReflectionService();
+            var target = new ReflectionService();
             var type = typeof(ComplexModel);
             var actual = target.GetReflectionInfo(type);
             var passwordProperty = actual.Properties.Single(x => x.Property.Name == nameof(ComplexModel.Password));
@@ -89,6 +89,40 @@ namespace FreeSecur.Core.UnitTests.Reflection
             Assert.IsTrue(actual.Properties.Any(x => x.Property.Name == nameof(ComplexModel.Email)));
             Assert.IsTrue(actual.Properties.Any(x => x.Property.Name == nameof(ComplexModel.Password)));
             Assert.AreEqual(nameof(FsMinLengthAttribute), attributeName);
+        }
+
+        [TestMethod]
+        public void GetValueForKeyShouldReturnCorrectValue()
+        {
+            var target = new ReflectionService();
+            var key = "ComplexFields[0].Email";
+
+            var expected = "testEmail";
+            var testModel = CreateComplexModel();
+            testModel.ComplexFields[0].Email = expected;
+
+            var actual = target.GetValueForKey(key, testModel);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GetValueForKey_ShouldThrowExceptionOnInvalidKey()
+        {
+            var target = new ReflectionService();
+            var testModel = CreateComplexModel();
+            var key = "Email..test";
+
+            Assert.ThrowsException<ArgumentException>(() => target.GetValueForKey(key, testModel));
+            Assert.ThrowsException<ArgumentNullException>(() => target.GetValueForKey(null, testModel));
+            Assert.ThrowsException<ArgumentNullException>(() => target.GetValueForKey("", testModel));
+        }
+
+        private static TestModel CreateComplexModel()
+        {
+            var complexModel = new ComplexModel("testEmail", "testPassword");
+            var testModel = new TestModel("testRequired", new List<ComplexModel> { complexModel });
+            return testModel;
         }
     }
 
@@ -105,8 +139,8 @@ namespace FreeSecur.Core.UnitTests.Reflection
         }
 
         [FsRequired]
-        public string RequiredField { get; }
-        public List<ComplexModel> ComplexFields { get; }
+        public string RequiredField { get; set; }
+        public List<ComplexModel> ComplexFields { get; set; }
     }
 
     [MetadataType(typeof(ComplexMetadata))]
@@ -119,8 +153,8 @@ namespace FreeSecur.Core.UnitTests.Reflection
         }
 
         [FsEmailAddress]
-        public string Email { get; }
-        public string Password { get; }
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 
     internal class ComplexMetadata

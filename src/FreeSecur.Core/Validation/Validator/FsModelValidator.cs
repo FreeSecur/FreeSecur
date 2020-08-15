@@ -7,11 +7,11 @@ namespace FreeSecur.Core.Validation.Validator
 {
     public class FsModelValidator
     {
-        private readonly MetadataReflectionService _metadataReflectionService;
+        private readonly ReflectionService _reflectionService;
 
-        public FsModelValidator(MetadataReflectionService metadataReflectionService)
+        public FsModelValidator(ReflectionService reflectionService)
         {
-            _metadataReflectionService = metadataReflectionService;
+            _reflectionService = reflectionService;
         }
 
         public List<FsFieldValidationResult> Validate(object model)
@@ -19,7 +19,7 @@ namespace FreeSecur.Core.Validation.Validator
             var mainType = model.GetType();
             var validationResults = new List<FsFieldValidationResult>();
 
-            var isCollection = _metadataReflectionService.IsCollection(mainType);
+            var isCollection = _reflectionService.IsCollection(mainType);
             if (isCollection)
             {
                 var index = 0;
@@ -49,7 +49,7 @@ namespace FreeSecur.Core.Validation.Validator
         {
             var mainType = model.GetType();
 
-            var reflectionInfo = _metadataReflectionService.GetReflectionInfo(mainType);
+            var reflectionInfo = _reflectionService.GetReflectionInfo(mainType);
             var validationResults = reflectionInfo.Properties
                 .Select(property => ValidateProperty(property, model, index))
                 .Where(validationResult => !validationResult.IsValid)
@@ -81,14 +81,14 @@ namespace FreeSecur.Core.Validation.Validator
             var subFieldValidationResults = new List<FsFieldValidationResult>();
             if (propertyValue != null)
             {
-                var metadataType = _metadataReflectionService.GetMetadataType(propertyType);
+                var metadataType = _reflectionService.GetMetadataType(propertyType);
                 if (metadataType != null)
                 {
                     var propertyValidationResults  = ValidateSingularObject(propertyValue);
                     subFieldValidationResults.AddRange(subFieldValidationResults);
 
                 }
-                else if (_metadataReflectionService.IsCollection(propertyType))
+                else if (_reflectionService.IsCollection(propertyType))
                 {
                     var elementList = (IEnumerable)propertyValue;
                     var subIndex = 0;
