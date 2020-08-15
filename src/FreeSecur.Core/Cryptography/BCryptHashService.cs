@@ -2,7 +2,7 @@
 
 namespace FreeSecur.Core.Cryptography
 {
-    public class BCryptHashModule : IHashModule
+    public class BCryptHashService : IHashService
     {
         public string GetHash(string plainText)
             => BCryptHasher.EnhancedHashPassword(plainText);

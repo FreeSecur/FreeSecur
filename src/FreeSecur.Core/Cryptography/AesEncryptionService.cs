@@ -1,12 +1,44 @@
-﻿using System;
+﻿using Microsoft.Extensions.Options;
+using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace FreeSecur.Core.Cryptography
 {
-    public class AesEncryptionModule : IEncryptionModule
+    public class AesEncryptionService : IEncryptionService
     {
+        private readonly IOptions<FsEncryption> _options;
+        private readonly IFsSerializer _fsSerializer;
+
+        public AesEncryptionService(
+            IOptions<FsEncryption> options,
+            IFsSerializer fsSerializer)
+        {
+            _options = options;
+            _fsSerializer = fsSerializer;
+        }
+
+        public string EncryptModel<T>(T model)
+        {
+            var serializedModel = _fsSerializer.Serialize(model);
+            return Encrypt(serializedModel);
+        }
+
+        public string EncryptModel<T>(T model, string key)
+        {
+            var serializedModel = _fsSerializer.Serialize(model);
+            return Encrypt(serializedModel, key);
+        }
+
+        public string Encrypt(string plainText)
+        {
+            var settings = _options.Value;
+            var encryptionKey = settings.DefaultEncryptionKey;
+
+            return Encrypt(plainText, encryptionKey);
+        }
+
         public string Encrypt(string plainText, string key)
         {
             var keys = GetHashKeys(key);
@@ -30,6 +62,28 @@ namespace FreeSecur.Core.Cryptography
 
                 return Convert.ToBase64String(encryptedBytes);
             }
+        }
+
+        public T DecryptModel<T>(string encryptedText)
+        {
+            var plainText = Decrypt(encryptedText);
+            var model = _fsSerializer.Deserialize<T>(plainText);
+            return model;
+        }
+
+        public T DecryptModel<T>(string encryptedText, string key)
+        {
+            var plainText = Decrypt(encryptedText, key);
+            var model = _fsSerializer.Deserialize<T>(plainText);
+            return model;
+        }
+
+        public string Decrypt(string encryptedText)
+        {
+            var settings = _options.Value;
+            var encryptionKey = settings.DefaultEncryptionKey;
+
+            return Decrypt(encryptedText, encryptionKey);
         }
 
         public string Decrypt(string encryptedText, string key)
