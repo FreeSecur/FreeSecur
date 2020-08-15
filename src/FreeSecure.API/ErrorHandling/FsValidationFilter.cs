@@ -22,11 +22,13 @@ namespace FreeSecure.API.ErrorHandling
             var loggerFactory = context.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>();
             var serializer = context.HttpContext.RequestServices.GetRequiredService<IFsSerializer>();
 
-
             var argumentValidationResults = new List<FsValidationResult>();
-
+            
             foreach(var argument in context.ActionArguments)
             {
+                var argumentMetadata = context.ActionDescriptor.Parameters.Single(x => x.Name == argument.Key);
+                if (argumentMetadata.BindingInfo.BindingSource.Id == "Query") continue;
+
                 var modelValidationResult = modelValidator.Validate(argument.Value);
 
                 if (modelValidationResult.Any())

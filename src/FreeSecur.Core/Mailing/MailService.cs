@@ -10,11 +10,11 @@ namespace FreeSecur.Core.Mailing
 {
     public class MailService : IMailService
     {
-        private readonly IOptionsSnapshot<FsMail> _fsMailOptions;
+        private readonly IOptions<FsMail> _fsMailOptions;
         private readonly StringInterpolationService _stringInterpolationService;
 
         public MailService(
-            IOptionsSnapshot<FsMail> fsMailOptions,
+            IOptions<FsMail> fsMailOptions,
             StringInterpolationService stringInterpolationService)
         {
             _fsMailOptions = fsMailOptions;

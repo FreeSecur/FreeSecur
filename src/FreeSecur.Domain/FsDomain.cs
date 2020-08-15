@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using FreeSecur.Core;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,18 +8,19 @@ namespace FreeSecur.Domain
 {
     public static class FsDomain
     {
-        public static void AddFreeSecurDomain(
-            this IServiceCollection services, 
-            IConfiguration configuration)
+        public static FsCoreConfigurer AddFreeSecurDomain(
+            this FsCoreConfigurer fsCoreConfigurer)
         {
-            var settingsSection = configuration.GetSection(nameof(FsDomainSettings));
+            var settingsSection = fsCoreConfigurer.Configuration.GetSection(nameof(FsDomainSettings));
             var settings = settingsSection.Get<FsDomainSettings>();
 
-            services.AddDbContextPool<FsDbContext>(options => {
+            fsCoreConfigurer.Services.AddDbContextPool<FsDbContext>(options => {
                 options.UseSqlServer(settings.ConnectionString);
             });
 
-            services.AddTransient<IFsEntityRepository, FsEntityRepository>();
+            fsCoreConfigurer.Services.AddTransient<IFsEntityRepository, FsEntityRepository>();
+
+            return fsCoreConfigurer;
         }
 
         public static void UseFreeSecurDomain(

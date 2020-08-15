@@ -1,4 +1,5 @@
-﻿using FreeSecur.Domain.Entities.Users;
+﻿using FreeSecur.Core.Validation.Attributes;
+using FreeSecur.Domain.Entities.Users;
 using System.ComponentModel.DataAnnotations;
 
 namespace FreeSecur.Logic.UserLogic.Models
@@ -11,5 +12,8 @@ namespace FreeSecur.Logic.UserLogic.Models
         public string Password { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        [FsRequired]
+        [FsUrl]
+        public string ConfirmationUrl { get; set; }
     }
 }

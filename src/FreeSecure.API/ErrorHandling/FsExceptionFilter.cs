@@ -21,10 +21,21 @@ namespace FreeSecure.API.ErrorHandling
 
                 logger.LogError(exception, exception.Message);
 
-                context.Result = new ObjectResult(exception.Message)
+                if (exception.StatusCode == System.Net.HttpStatusCode.BadRequest)
                 {
-                    StatusCode = (int)exception.StatusCode,
-                };
+                    var modelErrorResponse = new FsModelErrorResponse(exception.Message);
+                    context.Result = new ObjectResult(modelErrorResponse)
+                    {
+                        StatusCode = (int)exception.StatusCode,
+                    };
+                }
+                else
+                {
+                    context.Result = new ObjectResult(exception.Message)
+                    {
+                        StatusCode = (int)exception.StatusCode,
+                    };
+                }
 
                 context.ExceptionHandled = true;
             }

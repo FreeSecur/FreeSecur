@@ -11,6 +11,7 @@ using FreeSecur.Core.Serialization;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using FreeSecure.API.Utils;
+using FreeSecur.Core.Url;
 
 namespace FreeSecure
 {
@@ -25,9 +26,10 @@ namespace FreeSecure
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddFreeSecurCore();
-            services.AddFreeSecurDomain(Configuration);
-            services.AddFreeSecurLogic(Configuration);
+            services
+                .AddFreeSecurCore(Configuration)
+                .AddFreeSecurDomain()
+                .AddFreeSecurLogic();
 
             services.AddControllers(options =>
             {
@@ -45,6 +47,7 @@ namespace FreeSecure
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseMiddleware<UrlMiddleware>();
             app.UseSwagger();
             app.UseSwaggerUI(c => {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "FreeSecur API v1");
@@ -62,6 +65,7 @@ namespace FreeSecure
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -1,30 +1,75 @@
-﻿using FreeSecur.Core.Cryptography;
+﻿using FreeSecur.Core;
+using FreeSecur.Core.Cryptography;
 using FreeSecur.Core.ExceptionHandling.Exceptions;
+using FreeSecur.Core.Mailing;
+using FreeSecur.Core.Url;
 using FreeSecur.Domain;
 using FreeSecur.Domain.Entities.Users;
+using FreeSecur.Logic.AccountManagement.Mail;
+using FreeSecur.Logic.AccountManagement.MailModels;
 using FreeSecur.Logic.UserLogic.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Net;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace FreeSecur.Logic.UserLogic
 {
     public class AccountManagementService
     {
         private readonly IFsEntityRepository _entityRepository;
-        private readonly IHashModule _hashModule;
+        private readonly IHashService _hashService;
+        private readonly IMailService _mailService;
+        private readonly IEncryptionService _encryptionService;
+        private readonly FsDbContext _dbContext;
 
         public AccountManagementService(
             IFsEntityRepository entityRepository,
-            IHashModule hashModule)
+            IHashService hashService,
+            IMailService mailService,
+            IEncryptionService encryptionService, 
+            FsDbContext dbContext)
         {
             _entityRepository = entityRepository;
-            _hashModule = hashModule;
+            _hashService = hashService;
+            _mailService = mailService;
+            _encryptionService = encryptionService;
+            _dbContext = dbContext;
+        }
+
+        public async Task ConfirmEmail(string key)
+        {
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                throw new FunctionalException("Invalid key", HttpStatusCode.BadRequest);
+            }
+
+            var decodedKey = HttpUtility.UrlDecode(key);
+            var userReadModel = _encryptionService.DecryptModel<UserReadModel>(decodedKey);
+
+            if (!userReadModel.Id.HasValue)
+            {
+                throw new FunctionalException("Invalid key", HttpStatusCode.BadRequest);
+            }
+
+            var user = await _entityRepository.GetEntity<User>(x => x.Id == userReadModel.Id.Value);
+            if (user == null)
+            {
+                throw new FunctionalException("Invalid key", HttpStatusCode.BadRequest);
+            }
+
+            user.IsEmailConfirmed = true;
+
+            await _entityRepository.UpdateEntity(user, null);
         }
 
         public async Task<User> Register(UserRegistrationModel userRegistrationModel)
         {
-            var passwordHash = _hashModule.GetHash(userRegistrationModel.Password);
+            var passwordHash = _hashService.GetHash(userRegistrationModel.Password);
 
+            //Prepare user model
             var userToCreate = new User
             {
                 Email = userRegistrationModel.Email,
@@ -34,10 +79,38 @@ namespace FreeSecur.Logic.UserLogic
                 Password = passwordHash,
                 IsEmailConfirmed = false
             };
+            
 
-            var user = await _entityRepository.AddOwner(userToCreate, null);
+            //Execute saving and send mails
+            using (var transaction = _dbContext.Database.BeginTransaction())
+            {
+                var user = await _entityRepository.AddOwner(userToCreate, null);
+                try
+                {
+                    await SendConfirmEmailMail(userToCreate, userRegistrationModel.ConfirmationUrl);
+                }
+                catch
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
 
-            return user;
+                await transaction.CommitAsync();
+                return user;
+            }
+        }
+
+        public async Task SendConfirmEmailMail(User userToCreate, string confirmationUrl)
+        {
+            var userReadModel = new UserReadModel(userToCreate);
+            var confirmationKey = _encryptionService.EncryptModel(userReadModel);
+            var encodedConfirmationKey = HttpUtility.UrlEncode(confirmationKey);
+
+            var confirmationUrlWithKey = $"{confirmationUrl}?key={encodedConfirmationKey}";
+            var confirmationMailModel = new ConfirmationMailModel(confirmationUrlWithKey, userToCreate.FirstName, userToCreate.LastName);
+            var message = new FsMailMessage<ConfirmationMailModel>(userToCreate.Email, MailResources.ConfirmEmail_Subject, MailResources.ConfirmEmail_Body, confirmationMailModel);
+
+            await _mailService.SendMail(message);
         }
 
         public async Task<UserReadModel> UpdatePersonalData(int id, UserUpdateModel userUpdateModel)
