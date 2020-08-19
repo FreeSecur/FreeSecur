@@ -1,17 +1,17 @@
 ﻿using FreeSecur.Core.Validation.Validator;
 using System.Collections.Generic;
 
-namespace FreeSecure.API.ErrorHandling
+namespace FreeSecure.Core.Validation.Filter
 {
-    public class FsValidationResult
+    public class ValidationResult
     {
-        public FsValidationResult(string argumentName, List<FsFieldValidationResult> validationResults)
+        public ValidationResult(string argumentName, List<FieldValidationResult> validationResults)
         {
             ArgumentName = argumentName;
             ValidationResults = validationResults;
         }
 
         public string ArgumentName { get; }
-        public List<FsFieldValidationResult> ValidationResults { get; }
+        public List<FieldValidationResult> ValidationResults { get; }
     }
 }

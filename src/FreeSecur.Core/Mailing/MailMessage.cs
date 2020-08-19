@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace FreeSecur.Core.Mailing
 {
-    public class FsMailMessage<T>
+    public class MailMessage<T>
         where T : class
     {
-        public FsMailMessage(string toAddress, string subject, string template, T model)
+        public MailMessage(string toAddress, string subject, string template, T model)
         {
             if (string.IsNullOrWhiteSpace(toAddress))
                 throw new ArgumentNullException(nameof(toAddress));
@@ -17,7 +17,7 @@ namespace FreeSecur.Core.Mailing
             Model = model ?? throw new ArgumentNullException(nameof(model));
         }
 
-        public FsMailMessage(List<string> toAddresses, string subject, string template, T model)
+        public MailMessage(List<string> toAddresses, string subject, string template, T model)
         {
             ToAddresses = toAddresses ?? throw new ArgumentNullException(nameof(toAddresses));
             Subject = subject ?? throw new ArgumentNullException(nameof(subject));

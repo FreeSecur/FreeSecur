@@ -5,13 +5,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using FreeSecur.Core;
 using FreeSecur.Domain;
-using FreeSecure.API.ErrorHandling;
 using FreeSecur.Logic;
 using FreeSecur.Core.Serialization;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using FreeSecure.API.Utils;
 using FreeSecur.Core.Url;
+using FreeSecur.Core.ExceptionHandling;
+using FreeSecure.Core.Validation.Filter;
+using FreeSecur.Logic.AccessManagement;
 
 namespace FreeSecure
 {
@@ -29,16 +31,17 @@ namespace FreeSecure
             services
                 .AddFreeSecurCore(Configuration)
                 .AddFreeSecurDomain()
-                .AddFreeSecurLogic();
+                .AddFreeSecurLogic()
+                .AddFreeSecurAuthentication();
 
             services.AddControllers(options =>
             {
-                options.Filters.Add(new FsExceptionFilter());
-                options.Filters.Add(new FsValidationFilter());
+                options.Filters.Add(new ExceptionFilter());
+                options.Filters.Add(new ValidationFilter());
             })
             .AddJsonOptions(options =>
             {
-                FsSerialization.ConfigureSerailizerOptions(options.JsonSerializerOptions);
+                Serialization.ConfigureSerializerOptions(options.JsonSerializerOptions);
             });
 
             services.TryAddEnumerable(ServiceDescriptor.Transient<IApplicationModelProvider, ProduceResponseTypeProvider>());

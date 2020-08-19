@@ -1,4 +1,5 @@
 ﻿using FreeSecur.Core;
+using FreeSecur.Core.GeneralHelpers;
 using FreeSecur.Domain.Entities.Owners;
 using Microsoft.EntityFrameworkCore;
 using System;

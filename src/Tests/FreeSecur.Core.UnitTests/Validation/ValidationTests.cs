@@ -1,6 +1,7 @@
 ﻿using FreeSecur.Core.Reflection;
 using FreeSecur.Core.Validation;
 using FreeSecur.Core.Validation.Attributes;
+using FreeSecur.Core.Validation.ErrorCodes;
 using FreeSecur.Core.Validation.Validator;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace FreeSecur.Core.UnitTests.Validation
         [TestMethod]
         public void ValidationShouldSucceed()
         {
-            var target = new FsModelValidator(_reflectionService);
+            var target = new ModelValidator(_reflectionService);
 
             var complexModel1 = new ComplexModel("test@test.nl", "aaaaaaaaaaa");
             var complexModel2 = new ComplexModel("test@tes2.nl", "bbbbbbbbbbb");
@@ -37,7 +38,7 @@ namespace FreeSecur.Core.UnitTests.Validation
         [TestMethod]
         public void ListValidationShouldFailWithErrorCode()
         {
-            var target = new FsModelValidator(_reflectionService);
+            var target = new ModelValidator(_reflectionService);
 
             var complexModel1 = new ComplexModel("test@test.nl", "aaaaaaaaaaa");
             var complexModel2 = new ComplexModel("test@tes2.nl", "bbbb");
@@ -57,7 +58,7 @@ namespace FreeSecur.Core.UnitTests.Validation
         [TestMethod]
         public void EmailValidationShouldFailWithErrorCode()
         {
-            var target = new FsModelValidator(_reflectionService);
+            var target = new ModelValidator(_reflectionService);
 
             var complexModel = new ComplexModel("notavalidmail", "bbbbbbbbbbb");
 

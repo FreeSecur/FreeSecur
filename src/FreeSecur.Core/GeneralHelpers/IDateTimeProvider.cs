@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FreeSecur.Core
+namespace FreeSecur.Core.GeneralHelpers
 {
     public interface IDateTimeProvider
     {

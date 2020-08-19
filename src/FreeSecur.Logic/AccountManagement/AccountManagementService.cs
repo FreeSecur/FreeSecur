@@ -42,24 +42,16 @@ namespace FreeSecur.Logic.UserLogic
 
         public async Task ConfirmEmail(string key)
         {
-            if (string.IsNullOrWhiteSpace(key))
-            {
-                throw new FunctionalException("Invalid key", HttpStatusCode.BadRequest);
-            }
+            if (string.IsNullOrWhiteSpace(key)) throw new StatusCodeException(HttpStatusCode.BadRequest);
 
             var decodedKey = HttpUtility.UrlDecode(key);
             var userReadModel = _encryptionService.DecryptModel<UserReadModel>(decodedKey);
 
-            if (!userReadModel.Id.HasValue)
-            {
-                throw new FunctionalException("Invalid key", HttpStatusCode.BadRequest);
-            }
+            if (!userReadModel.Id.HasValue) throw new StatusCodeException(HttpStatusCode.BadRequest);
 
             var user = await _entityRepository.GetEntity<User>(x => x.Id == userReadModel.Id.Value);
-            if (user == null)
-            {
-                throw new FunctionalException("Invalid key", HttpStatusCode.BadRequest);
-            }
+
+            if (user == null) throw new StatusCodeException(HttpStatusCode.BadRequest);
 
             user.IsEmailConfirmed = true;
 
@@ -116,7 +108,7 @@ namespace FreeSecur.Logic.UserLogic
 
             var confirmationUrlWithKey = $"{confirmationUrl}?key={encodedConfirmationKey}";
             var confirmationMailModel = new ConfirmationMailModel(confirmationUrlWithKey, userToCreate.FirstName, userToCreate.LastName);
-            var message = new FsMailMessage<ConfirmationMailModel>(userToCreate.Email, MailResources.ConfirmEmail_Subject, MailResources.ConfirmEmail_Body, confirmationMailModel);
+            var message = new MailMessage<ConfirmationMailModel>(userToCreate.Email, MailResources.ConfirmEmail_Subject, MailResources.ConfirmEmail_Body, confirmationMailModel);
 
             await _mailService.SendMail(message);
 
@@ -127,8 +119,7 @@ namespace FreeSecur.Logic.UserLogic
         {
             var userToEdit = await _entityRepository.GetEntity<User>(x => x.Id == id);
 
-            if (userToEdit == null)
-                throw new FunctionalException($"User with id {id} does not exist", HttpStatusCode.NotFound);
+            if (userToEdit == null) throw new StatusCodeException($"User with id {id} does not exist", HttpStatusCode.NotFound);
 
             userToEdit.Email = userUpdateModel.Email;
             userToEdit.FirstName = userUpdateModel.FirstName;

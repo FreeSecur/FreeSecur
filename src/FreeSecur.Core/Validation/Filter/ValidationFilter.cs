@@ -8,9 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
-namespace FreeSecure.API.ErrorHandling
+namespace FreeSecure.Core.Validation.Filter
 {
-    public class FsValidationFilter : IActionFilter
+    public class ValidationFilter : IActionFilter
     {
         public void OnActionExecuted(ActionExecutedContext context)
         {
@@ -18,11 +18,11 @@ namespace FreeSecure.API.ErrorHandling
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            var modelValidator = context.HttpContext.RequestServices.GetRequiredService<FsModelValidator>();
+            var modelValidator = context.HttpContext.RequestServices.GetRequiredService<ModelValidator>();
             var loggerFactory = context.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>();
-            var serializer = context.HttpContext.RequestServices.GetRequiredService<IFsSerializer>();
+            var serializer = context.HttpContext.RequestServices.GetRequiredService<ISerializer>();
 
-            var argumentValidationResults = new List<FsValidationResult>();
+            var argumentValidationResults = new List<ValidationResult>();
             
             foreach(var argument in context.ActionArguments)
             {
@@ -33,17 +33,17 @@ namespace FreeSecure.API.ErrorHandling
 
                 if (modelValidationResult.Any())
                 {
-                    var validationResult = new FsValidationResult(argument.Key, modelValidationResult);
+                    var validationResult = new ValidationResult(argument.Key, modelValidationResult);
                     argumentValidationResults.Add(validationResult);
                 }
             }
 
             if (argumentValidationResults.Any())
             {
-                var errorResponse = new FsModelErrorResponse(argumentValidationResults);
+                var errorResponse = new ModelErrorResponse(argumentValidationResults);
                 var errorResult = new JsonResult(errorResponse);
                 errorResult.StatusCode = (int)HttpStatusCode.BadRequest;
-                var logger = loggerFactory.CreateLogger<FsValidationFilter>();
+                var logger = loggerFactory.CreateLogger<ValidationFilter>();
                 logger.LogInformation($"Failed model validation: {serializer.Serialize(errorResponse)}");
                 context.Result = errorResult;
             }

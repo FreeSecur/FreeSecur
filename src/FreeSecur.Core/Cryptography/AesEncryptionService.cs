@@ -9,11 +9,11 @@ namespace FreeSecur.Core.Cryptography
     public class AesEncryptionService : IEncryptionService
     {
         private readonly IOptions<FsEncryption> _options;
-        private readonly IFsSerializer _fsSerializer;
+        private readonly ISerializer _fsSerializer;
 
         public AesEncryptionService(
             IOptions<FsEncryption> options,
-            IFsSerializer fsSerializer)
+            ISerializer fsSerializer)
         {
             _options = options;
             _fsSerializer = fsSerializer;

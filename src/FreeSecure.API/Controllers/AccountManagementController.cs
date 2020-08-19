@@ -15,13 +15,10 @@ namespace FreeSecure.API.Controllers
     public class AccountManagementController : FsController
     {
         private readonly AccountManagementService _accountManagementService;
-        private readonly IUrlService _urlService;
 
-        public AccountManagementController(AccountManagementService userService, 
-            IUrlService urlService)
+        public AccountManagementController(AccountManagementService userService)
         {
             _accountManagementService = userService;
-            _urlService = urlService;
         }
 
         [HttpPost("Register")]

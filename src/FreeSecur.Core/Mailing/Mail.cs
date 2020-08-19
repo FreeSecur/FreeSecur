@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FreeSecur.Core.Mailing
 {
-    public class FsMail
+    public class Mail
     {
         public string Host { get; set; }
         public int Port { get; set; }

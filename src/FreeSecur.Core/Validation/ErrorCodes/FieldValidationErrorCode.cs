@@ -1,4 +1,4 @@
-﻿namespace FreeSecur.Core.Validation
+﻿namespace FreeSecur.Core.Validation.ErrorCodes
 {
     public enum FieldValidationErrorCode
     {

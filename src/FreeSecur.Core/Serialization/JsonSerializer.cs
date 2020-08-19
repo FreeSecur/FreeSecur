@@ -2,19 +2,19 @@
 
 namespace FreeSecur.Core
 {
-    public class FsJsonSerializer : IFsSerializer
+    public class JsonSerializer : ISerializer
     {
         private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-        public FsJsonSerializer(JsonSerializerOptions jsonSerializerOptions)
+        public JsonSerializer(JsonSerializerOptions jsonSerializerOptions)
         {
             _jsonSerializerOptions = jsonSerializerOptions;
         }
 
         public string Serialize<T>(T value)
-            => JsonSerializer.Serialize(value, _jsonSerializerOptions);
+            => System.Text.Json.JsonSerializer.Serialize(value, _jsonSerializerOptions);
 
         public T Deserialize<T>(string json)
-            => JsonSerializer.Deserialize<T>(json, _jsonSerializerOptions);
+            => System.Text.Json.JsonSerializer.Deserialize<T>(json, _jsonSerializerOptions);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace FreeSecur.Core
 {
-    public class FsOptions
+    public class Options
     {
-        public FsOptions(
+        public Options(
             JsonSerializerOptions jsonSerializerOptions)
         {
             JsonSerializerOptions = jsonSerializerOptions;

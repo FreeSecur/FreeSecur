@@ -1,10 +1,11 @@
-﻿using System;
+﻿using FreeSecur.Core.Validation.ErrorCodes;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
 namespace FreeSecur.Core.Validation.Attributes
 {
-    public class FsUrlAttribute : DataTypeAttribute, IFsValidationAttribute
+    public class FsUrlAttribute : DataTypeAttribute, IValidationAttribute
     {
         private static Regex _regex = new Regex(@"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)");
 

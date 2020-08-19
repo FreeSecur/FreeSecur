@@ -1,23 +1,24 @@
 ﻿using FreeSecur.Core.Reflection;
+using FreeSecur.Core.Validation.Attributes;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace FreeSecur.Core.Validation.Validator
 {
-    public class FsModelValidator
+    public class ModelValidator
     {
         private readonly ReflectionService _reflectionService;
 
-        public FsModelValidator(ReflectionService reflectionService)
+        public ModelValidator(ReflectionService reflectionService)
         {
             _reflectionService = reflectionService;
         }
 
-        public List<FsFieldValidationResult> Validate(object model)
+        public List<FieldValidationResult> Validate(object model)
         {
             var mainType = model.GetType();
-            var validationResults = new List<FsFieldValidationResult>();
+            var validationResults = new List<FieldValidationResult>();
 
             var isCollection = _reflectionService.IsCollection(mainType);
             if (isCollection)
@@ -40,12 +41,12 @@ namespace FreeSecur.Core.Validation.Validator
             return validationResults;
         }
 
-        private List<FsFieldValidationResult> ValidateSingularObject(object model)
+        private List<FieldValidationResult> ValidateSingularObject(object model)
         {
             return ValidateSingularObject(model, null);
         }
 
-        private List<FsFieldValidationResult> ValidateSingularObject(object model, int? index)
+        private List<FieldValidationResult> ValidateSingularObject(object model, int? index)
         {
             var mainType = model.GetType();
 
@@ -58,7 +59,7 @@ namespace FreeSecur.Core.Validation.Validator
             return validationResults;
         }
 
-        private FsFieldValidationResult ValidateProperty(
+        private FieldValidationResult ValidateProperty(
             ReflectionPropertyInfo reflectionPropertyInfo, 
             object mainObject, 
             int? index)
@@ -68,8 +69,8 @@ namespace FreeSecur.Core.Validation.Validator
             var propertyValue = propertyInfo.GetValue(mainObject);
 
             var validationAttributes = reflectionPropertyInfo.CustomAttributes
-                .Where(attribute => attribute is IFsValidationAttribute)
-                .Select(attribute => (IFsValidationAttribute)attribute)
+                .Where(attribute => attribute is IValidationAttribute)
+                .Select(attribute => (IValidationAttribute)attribute)
                 .ToList();
 
             var errorCodes = validationAttributes
@@ -78,7 +79,7 @@ namespace FreeSecur.Core.Validation.Validator
                 .ToList();
 
 
-            var subFieldValidationResults = new List<FsFieldValidationResult>();
+            var subFieldValidationResults = new List<FieldValidationResult>();
             if (propertyValue != null)
             {
                 var metadataType = _reflectionService.GetMetadataType(propertyType);
@@ -103,11 +104,11 @@ namespace FreeSecur.Core.Validation.Validator
 
             if (subFieldValidationResults.Any())
             {
-                return new FsFieldValidationResult(propertyInfo.Name, errorCodes, subFieldValidationResults, index);
+                return new FieldValidationResult(propertyInfo.Name, errorCodes, subFieldValidationResults, index);
             }
             else
             {
-                return new FsFieldValidationResult(propertyInfo.Name, errorCodes, index);
+                return new FieldValidationResult(propertyInfo.Name, errorCodes, index);
             }
         }
     }

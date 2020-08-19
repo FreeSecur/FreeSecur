@@ -1,4 +1,4 @@
-﻿using FreeSecure.API.ErrorHandling;
+﻿using FreeSecure.Core.Validation.Filter;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
@@ -20,7 +20,7 @@ namespace FreeSecure.API.Utils
             {
                 foreach (ActionModel action in controller.Actions)
                 {
-                    action.Filters.Add(new SwaggerResponseAttribute((int)HttpStatusCode.BadRequest, _badRequestDescription, typeof(FsModelErrorResponse)));
+                    action.Filters.Add(new SwaggerResponseAttribute((int)HttpStatusCode.BadRequest, _badRequestDescription, typeof(ModelErrorResponse)));
                     action.Filters.Add(new SwaggerResponseAttribute((int)HttpStatusCode.NotFound, _notFoundDescription, typeof(string)));
                 }
             }

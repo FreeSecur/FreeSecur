@@ -15,7 +15,7 @@ namespace FreeSecur.Core.UnitTests.Cryptography
         private const string _key = "12345";
         private const string _key2 = "54321";
         private OptionsMock<FsEncryption> _options => new OptionsMock<FsEncryption>(new FsEncryption { DefaultEncryptionKey = "1234" });
-        private FsJsonSerializer _serializer = new FsJsonSerializer(FsSerialization.GetDefaultJsonSerializerOptions());
+        private JsonSerializer _serializer = new JsonSerializer(Serialization.Serialization.GetDefaultJsonSerializerOptions());
 
         [TestMethod]
         public void CanDecryptWithSameKey()

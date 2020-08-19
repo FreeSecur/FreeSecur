@@ -3,18 +3,18 @@ using System.Text.Json.Serialization;
 
 namespace FreeSecur.Core.Serialization
 {
-    public static class FsSerialization
+    public static class Serialization
     {
         public static JsonSerializerOptions GetDefaultJsonSerializerOptions()
         {
             var jsonSerializerOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
 
-            ConfigureSerailizerOptions(jsonSerializerOptions);
+            ConfigureSerializerOptions(jsonSerializerOptions);
 
             return jsonSerializerOptions;
         }
 
-        public static void ConfigureSerailizerOptions(JsonSerializerOptions options)
+        public static void ConfigureSerializerOptions(JsonSerializerOptions options)
         {
             options.Converters.Add(new JsonStringEnumConverter());
         }

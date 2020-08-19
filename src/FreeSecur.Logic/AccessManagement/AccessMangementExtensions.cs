@@ -13,14 +13,18 @@ namespace FreeSecur.Logic.AccessManagement
 {
     public static class AccessMangementExtensions
     {
-        public static FsCoreConfigurer AddFreeSecurAuthentication(this FsCoreConfigurer fsCoreConfigurer)
+        public static CoreConfigurer AddFreeSecurAuthentication(this CoreConfigurer fsCoreConfigurer)
         {
             var configuration = fsCoreConfigurer.Configuration;
             var services = fsCoreConfigurer.Services;
 
-            var jwtAuthenticationSettings = configuration
-                .GetSection(nameof(FsJwtAuthentication))
+            var jwtSettingsSection = configuration
+                .GetSection(nameof(FsJwtAuthentication));
+
+            var jwtAuthenticationSettings = jwtSettingsSection
                 .Get<FsJwtAuthentication>();
+
+            services.Configure<FsJwtAuthentication>(jwtSettingsSection);
 
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

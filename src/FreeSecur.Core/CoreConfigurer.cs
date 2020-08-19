@@ -3,9 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FreeSecur.Core
 {
-    public class FsCoreConfigurer
+    public class CoreConfigurer
     {
-        internal FsCoreConfigurer(IServiceCollection services, IConfiguration configuration)
+        internal CoreConfigurer(IServiceCollection services, IConfiguration configuration)
         {
             Services = services;
             Configuration = configuration;

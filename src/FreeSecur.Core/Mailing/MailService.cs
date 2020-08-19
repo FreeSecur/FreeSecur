@@ -10,18 +10,18 @@ namespace FreeSecur.Core.Mailing
 {
     public class MailService : IMailService
     {
-        private readonly IOptions<FsMail> _fsMailOptions;
+        private readonly IOptions<Mail> _fsMailOptions;
         private readonly StringInterpolationService _stringInterpolationService;
 
         public MailService(
-            IOptions<FsMail> fsMailOptions,
+            IOptions<Mail> fsMailOptions,
             StringInterpolationService stringInterpolationService)
         {
             _fsMailOptions = fsMailOptions;
             _stringInterpolationService = stringInterpolationService;
         }
 
-        public async Task SendMail<T>(FsMailMessage<T> fsMailMessage)
+        public async Task SendMail<T>(MailMessage<T> fsMailMessage)
             where T : class
         {
             var fsMailSettings = _fsMailOptions.Value;

@@ -4,6 +4,6 @@ namespace FreeSecur.Core.Mailing
 {
     public interface IMailService
     {
-        Task SendMail<T>(FsMailMessage<T> fsMailMessage) where T : class;
+        Task SendMail<T>(MailMessage<T> fsMailMessage) where T : class;
     }
 }

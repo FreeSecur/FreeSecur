@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FreeSecur.Core
+namespace FreeSecur.Core.GeneralHelpers
 {
     internal class DateTimeProvider : IDateTimeProvider
     {

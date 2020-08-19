@@ -8,8 +8,8 @@ namespace FreeSecur.Domain
 {
     public static class FsDomain
     {
-        public static FsCoreConfigurer AddFreeSecurDomain(
-            this FsCoreConfigurer fsCoreConfigurer)
+        public static CoreConfigurer AddFreeSecurDomain(
+            this CoreConfigurer fsCoreConfigurer)
         {
             var settingsSection = fsCoreConfigurer.Configuration.GetSection(nameof(FsDomainSettings));
             var settings = settingsSection.Get<FsDomainSettings>();
