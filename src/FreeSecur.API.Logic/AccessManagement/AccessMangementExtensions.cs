@@ -46,6 +46,7 @@ namespace FreeSecur.API.Logic.AccessManagement
                 });
 
             services.AddScoped<AuthenticationService>();
+            services.AddScoped<IAuthenticationService>(serviceProvider => serviceProvider.GetRequiredService<AuthenticationService>());
 
             return fsCoreConfigurer;
         }

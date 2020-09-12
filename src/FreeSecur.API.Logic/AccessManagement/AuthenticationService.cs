@@ -1,16 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Authentication;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FreeSecur.API.Logic.AccessManagement
 {
 
-    public class AuthenticationService : IMiddleware
+    public class AuthenticationService : IMiddleware, IAuthenticationService
     {
 
         private int? _userId;

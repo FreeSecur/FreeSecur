@@ -1,9 +1,8 @@
 ﻿using FreeSecur.API.Logic.UserLogic;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using FreeSecur.API.Core;
 using FreeSecur.API.Logic.AccessManagement;
+using FreeSecur.API.Logic.VaultManagement;
 
 namespace FreeSecur.API.Logic
 {
@@ -14,6 +13,7 @@ namespace FreeSecur.API.Logic
         {
             fsCoreConfigurer.Services.AddTransient<AccountManagementService>();
             fsCoreConfigurer.Services.AddTransient<AccessManagementService>();
+            fsCoreConfigurer.Services.AddTransient<VaultService>();
 
 
             return fsCoreConfigurer;

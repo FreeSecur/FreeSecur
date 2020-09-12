@@ -10,6 +10,7 @@ using FreeSecur.API.Logic.AccessManagement.ErrorCodeEnums;
 using FreeSecur.API.Logic.AccessManagement.Models;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FreeSecur.API.Controllers
 {
@@ -24,6 +25,7 @@ namespace FreeSecur.API.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         [SwaggerResponse((int)HttpStatusCode.OK, "Login token", typeof(string))]
         [SwaggerResponse(ExceptionStatusCode.ErrorCodeException, "Login error", typeof(LoginErrorCode))]
         public async Task<string> Login([FromBody] LoginModel loginModel)

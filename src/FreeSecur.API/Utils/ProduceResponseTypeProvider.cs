@@ -22,11 +22,13 @@ namespace FreeSecur.API.Utils
                 {
                     action.Filters.Add(new SwaggerResponseAttribute((int)HttpStatusCode.BadRequest, _badRequestDescription, typeof(ModelErrorResponse)));
                     action.Filters.Add(new SwaggerResponseAttribute((int)HttpStatusCode.NotFound, _notFoundDescription, typeof(string)));
+                    action.Filters.Add(new SwaggerResponseAttribute((int)HttpStatusCode.Unauthorized, _unAuthorizedDescription, typeof(string)));
                 }
             }
         }
 
         private const string _notFoundDescription = "Data not found based on given parameters. Returns describing the exact error";
         private const string _badRequestDescription = "Returns bad request with response body containing which fields of the given arguments are invalid";
+        private const string _unAuthorizedDescription = "Returns unauthorized if no authorization header is available";
     }
 }

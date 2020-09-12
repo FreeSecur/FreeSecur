@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FreeSecur.API.Controllers
 {
@@ -22,6 +23,7 @@ namespace FreeSecur.API.Controllers
         }
 
         [HttpPost("Register")]
+        [AllowAnonymous]
         [SwaggerResponse((int)HttpStatusCode.OK, "Created user id", typeof(int))]
         public async Task<UserRegistrationResponseModel> Register([FromBody] UserRegistrationModel registrationModel)
         {
@@ -31,6 +33,7 @@ namespace FreeSecur.API.Controllers
         }
 
         [HttpPatch("ConfirmEmail")]
+        [AllowAnonymous]
         [SwaggerResponse((int)HttpStatusCode.OK, "Confirmation succesful")]
         public async Task ConfirmEmail([FromQuery]string key)
         {

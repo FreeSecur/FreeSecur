@@ -43,6 +43,14 @@ namespace FreeSecur.API.Domain
         /// <returns>Untracked updated entity</returns>
         Task<TEntity> AddEntity<TEntity>(TEntity entity, int? userId) where TEntity : class, IFsEntity;
         /// <summary>
+        /// Attaches and adds range of entities to the databases
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="entities"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<List<TEntity>> AddEntities<TEntity>(List<TEntity> entities, int? userId) where TEntity : class, IFsEntity;
+        /// <summary>
         /// Removes detached entity from database
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>

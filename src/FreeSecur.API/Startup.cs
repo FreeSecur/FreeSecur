@@ -17,6 +17,8 @@ using FreeSecur.API.Logic.AccessManagement;
 using Microsoft.OpenApi.Models;
 using System.Collections.Generic;
 using FreeSecur.API.Core.Swagger;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace FreeSecur.API
 {
@@ -42,6 +44,7 @@ namespace FreeSecur.API
             {
                 options.Filters.Add(new ExceptionFilter());
                 options.Filters.Add(new ValidationFilter());
+                options.Filters.Add(new AuthorizeFilter());
             })
             .AddJsonOptions(options =>
             {

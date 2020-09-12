@@ -23,7 +23,6 @@ namespace FreeSecur.API.Domain
             _dateTimeProvider = dateTimeProvider;
         }
 
-
         
         public async Task<TEntity> GetEntity<TEntity>(
             Expression<Func<TEntity, bool>> whereClause)
@@ -90,13 +89,7 @@ namespace FreeSecur.API.Domain
             int? userId)
             where TEntity : class, IFsEntity
         {
-            if (entity is IFsTrackedEntity trackedEntity)
-            {
-                trackedEntity.CreatedById = userId.Value;
-                trackedEntity.CreatedOn = _dateTimeProvider.Now;
-                trackedEntity.ModifiedById = userId.Value;
-                trackedEntity.ModifiedOn = _dateTimeProvider.Now;
-            }
+            AddEntityModificationTracking(entity, userId);
 
             _dbContext.Add(entity);
             await _dbContext.SaveChangesAsync();
@@ -104,6 +97,26 @@ namespace FreeSecur.API.Domain
 
             //Save succesful return detached entity
             return entity;
+        }
+
+        public async Task<List<TEntity>> AddEntities<TEntity>(List<TEntity> entities, int? userId)
+            where TEntity : class, IFsEntity
+        {
+            foreach(var entity in entities)
+            {
+                AddEntityModificationTracking(entity, userId);
+            }
+
+            _dbContext.AddRange(entities);
+
+            await _dbContext.SaveChangesAsync();
+
+            foreach(var entity in entities)
+            {
+                _dbContext.Entry(entity).State = EntityState.Detached;
+            }
+
+            return entities;
         }
 
         public async Task RemoveEntity<TEntity>(TEntity entity)
@@ -143,6 +156,18 @@ namespace FreeSecur.API.Domain
 
             entity.Owner = owner;
 
+            AddEntityModificationTracking(entity, userId);
+
+            _dbContext.Add(entity);
+            await _dbContext.SaveChangesAsync();
+            _dbContext.Entry(entity).State = EntityState.Detached;
+
+            return entity;
+        }
+
+
+        private void AddEntityModificationTracking<TEntity>(TEntity entity, int? userId) where TEntity : class, IFsEntity
+        {
             if (entity is IFsTrackedEntity trackedEntity)
             {
                 trackedEntity.CreatedById = userId.Value;
@@ -150,12 +175,6 @@ namespace FreeSecur.API.Domain
                 trackedEntity.ModifiedById = userId.Value;
                 trackedEntity.ModifiedOn = _dateTimeProvider.Now;
             }
-
-            _dbContext.Add(entity);
-            await _dbContext.SaveChangesAsync();
-            _dbContext.Entry(entity).State = EntityState.Detached;
-
-            return entity;
         }
     }
 }

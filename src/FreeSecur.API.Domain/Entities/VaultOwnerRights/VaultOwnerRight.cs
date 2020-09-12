@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FreeSecur.API.Domain.Entities.VaultOwnerRights
 {
-    public class VaultOwnerRight
+    public class VaultOwnerRight : IFsEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
