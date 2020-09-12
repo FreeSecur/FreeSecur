@@ -16,6 +16,7 @@ using FreeSecur.API.Core.Validation.Filter;
 using FreeSecur.API.Logic.AccessManagement;
 using Microsoft.OpenApi.Models;
 using System.Collections.Generic;
+using FreeSecur.API.Core.Swagger;
 
 namespace FreeSecur.API
 {
@@ -32,6 +33,7 @@ namespace FreeSecur.API
         {
             services
                 .AddFreeSecurCore(Configuration)
+                .AddFreeSecurSwagger()
                 .AddFreeSecurDomain()
                 .AddFreeSecurLogic()
                 .AddFreeSecurAuthentication();
@@ -48,35 +50,7 @@ namespace FreeSecur.API
 
             services.TryAddEnumerable(ServiceDescriptor.Transient<IApplicationModelProvider, ProduceResponseTypeProvider>());
 
-            services.AddSwaggerGen(options =>
-            {
-                options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-                {
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer"
-                });
-
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            },
-                            Scheme = "oauth2",
-                            Name = "Bearer",
-                            In = ParameterLocation.Header,
-
-                        },
-                        new List<string>()
-                    }
-                });
-            });
+            
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
