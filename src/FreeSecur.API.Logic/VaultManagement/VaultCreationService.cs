@@ -18,14 +18,14 @@ using System.Threading.Tasks;
 
 namespace FreeSecur.API.Logic.VaultManagement
 {
-    public class VaultService
+    public class VaultCreationService
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly IFsEntityRepository _entityRepository;
         private readonly FsDbContext _dbContext;
         private readonly IHashService _hashService;
 
-        public VaultService(
+        public VaultCreationService(
             IAuthenticationService authenticationService, 
             IFsEntityRepository entityRepository,
             FsDbContext dbContext,
@@ -36,6 +36,7 @@ namespace FreeSecur.API.Logic.VaultManagement
             _dbContext = dbContext;
             _hashService = hashService;
         }
+
         public async Task<int> CreateVaultForAuthenticatedUser(VaultCreateModel vaultCreateModel)
         {
             if (!_authenticationService.IsAuthenticated)

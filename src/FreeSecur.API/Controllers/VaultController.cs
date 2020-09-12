@@ -16,18 +16,24 @@ namespace FreeSecur.API.Controllers
     [Route("api/[controller]")]
     public class VaultController : FsController
     {
-        private readonly VaultService _vaultService;
+        private readonly VaultCreationService _vaultService;
+        private readonly VaultItemService _vaultItemService;
+        private readonly VaultInformationService _vaultInformationService;
 
         public VaultController(
-            VaultService vaultService)
+            VaultCreationService vaultCreationService,
+            VaultItemService vaultItemService,
+            VaultInformationService vaultInformationService)
         {
-            _vaultService = vaultService;
+            _vaultService = vaultCreationService;
+            _vaultItemService = vaultItemService;
+            _vaultInformationService = vaultInformationService;
         }
 
 
         [HttpPost]
         [SwaggerResponse((int)HttpStatusCode.OK, "Created vault id", typeof(long))]
-        public async Task<int> Register([FromBody] VaultCreateModel vaultCreateModel)
+        public async Task<int> Create([FromBody] VaultCreateModel vaultCreateModel)
         {
             var vaultId = await _vaultService.CreateVaultForAuthenticatedUser(vaultCreateModel);
 

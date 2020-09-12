@@ -13,7 +13,10 @@ namespace FreeSecur.API.Logic
         {
             fsCoreConfigurer.Services.AddTransient<AccountManagementService>();
             fsCoreConfigurer.Services.AddTransient<AccessManagementService>();
-            fsCoreConfigurer.Services.AddTransient<VaultService>();
+            fsCoreConfigurer.Services.AddTransient<VaultCreationService>();
+            fsCoreConfigurer.Services.AddTransient<VaultInformationService>();
+            fsCoreConfigurer.Services.AddTransient<VaultItemService>();
+
 
 
             return fsCoreConfigurer;
