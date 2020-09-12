@@ -45,6 +45,8 @@ namespace FreeSecur.API.Logic.AccessManagement
                     };
                 });
 
+            services.AddScoped<AuthenticationService>();
+
             return fsCoreConfigurer;
         }
     }

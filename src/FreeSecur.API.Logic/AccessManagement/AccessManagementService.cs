@@ -22,6 +22,12 @@ namespace FreeSecur.API.Logic.AccessManagement
         private readonly IFsEntityRepository _fsEntityRepository;
         private readonly IHashService _hashService;
         private readonly FsJwtAuthentication _jwtSettings;
+        private const string _userIdClaim = "userId";
+
+        private class CustomClaim
+        {
+            public const string UserId = "userId";
+        }
 
         public AccessManagementService(
             IFsEntityRepository fsEntityRepository, 
@@ -36,11 +42,9 @@ namespace FreeSecur.API.Logic.AccessManagement
         public async Task<string> Login(LoginModel loginModel)
         {
             var user = await _fsEntityRepository.GetEntity<User>(x => x.Email == loginModel.Username || x.Username == loginModel.Username);
-
             if (user == null) throw new ErrorCodeException(LoginErrorCode.InvalidCredentials);
 
             var passwordIsCorrect = _hashService.Verify(loginModel.Password, user.Password);
-
             if (!passwordIsCorrect) throw new ErrorCodeException(LoginErrorCode.InvalidCredentials);
 
             if (!user.IsEmailConfirmed) throw new ErrorCodeException(LoginErrorCode.EmailNotConfirmed);
@@ -54,12 +58,11 @@ namespace FreeSecur.API.Logic.AccessManagement
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            var userReadModel = new UserReadModel(user);
 
             var tokenClaims = new[]
             {
+                new Claim(CustomClaim.UserId, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-                new Claim("fullName", userReadModel.FullName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 

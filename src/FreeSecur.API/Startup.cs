@@ -14,6 +14,8 @@ using FreeSecur.API.Core.Url;
 using FreeSecur.API.Core.ExceptionHandling;
 using FreeSecur.API.Core.Validation.Filter;
 using FreeSecur.API.Logic.AccessManagement;
+using Microsoft.OpenApi.Models;
+using System.Collections.Generic;
 
 namespace FreeSecur.API
 {
@@ -46,13 +48,42 @@ namespace FreeSecur.API
 
             services.TryAddEnumerable(ServiceDescriptor.Transient<IApplicationModelProvider, ProduceResponseTypeProvider>());
 
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(options =>
+            {
+                options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Scheme = "oauth2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
+
+                        },
+                        new List<string>()
+                    }
+                });
+            });
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<UrlMiddleware>();
             app.UseSwagger();
-            app.UseSwaggerUI(c => {
+            app.UseSwaggerUI(c =>
+            {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "FreeSecur API v1");
                 c.RoutePrefix = string.Empty;
             });
@@ -70,7 +101,7 @@ namespace FreeSecur.API
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseMiddleware<AuthenticationService>();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
