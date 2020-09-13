@@ -47,23 +47,21 @@ namespace FreeSecur.API.Logic.VaultManagement
             var userId = _authenticationService.UserId;
             var user = await _entityRepository.GetEntity<User>(x => x.Id == userId);
 
-            using (var transaction = _dbContext.Database.BeginTransaction())
+            using var transaction = _dbContext.Database.BeginTransaction();
+            try
             {
-                try
-                {
-                    var vaultId = await CreateVault(vaultCreateModel, user.Id);
-                    var vaultOwnerId = await CreateVaultOwner(vaultId, user.OwnerId, user.Id);
-                    await CreateVaultOwnerRights(vaultOwnerId, user.Id, VaultOwnerRightType.CreateSecrets, VaultOwnerRightType.DeleteSecrets, VaultOwnerRightType.ReadSecrets, VaultOwnerRightType.UpdateSecrets);
+                var vaultId = await CreateVault(vaultCreateModel, user.Id);
+                var vaultOwnerId = await CreateVaultOwner(vaultId, user.OwnerId, user.Id);
+                await CreateVaultOwnerRights(vaultOwnerId, user.Id, VaultOwnerRightType.CreateSecrets, VaultOwnerRightType.DeleteSecrets, VaultOwnerRightType.ReadSecrets, VaultOwnerRightType.UpdateSecrets);
 
-                    await transaction.CommitAsync();
+                await transaction.CommitAsync();
 
-                    return vaultId;
-                }
-                catch
-                {
-                    await transaction.RollbackAsync();
-                    throw;
-                }
+                return vaultId;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
             }
         }
 

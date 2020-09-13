@@ -9,6 +9,7 @@ using FreeSecur.API.Logic.UserLogic.Models;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
+using FreeSecur.API.Logic.AccessManagement;
 
 namespace FreeSecur.API.Logic.UserLogic
 {
@@ -19,19 +20,22 @@ namespace FreeSecur.API.Logic.UserLogic
         private readonly IMailService _mailService;
         private readonly IEncryptionService _encryptionService;
         private readonly FsDbContext _dbContext;
+        private readonly IAuthenticationService _authenticationService;
 
         public AccountManagementService(
             IFsEntityRepository entityRepository,
             IHashService hashService,
             IMailService mailService,
             IEncryptionService encryptionService, 
-            FsDbContext dbContext)
+            FsDbContext dbContext,
+            IAuthenticationService authenticationService)
         {
             _entityRepository = entityRepository;
             _hashService = hashService;
             _mailService = mailService;
             _encryptionService = encryptionService;
             _dbContext = dbContext;
+            _authenticationService = authenticationService;
         }
 
         public async Task ConfirmEmail(string key)
@@ -67,25 +71,23 @@ namespace FreeSecur.API.Logic.UserLogic
                 PasswordSalt = passwordHash.Salt,
                 IsEmailConfirmed = false
             };
-            
+
 
             //Execute saving and send mails
-            using (var transaction = _dbContext.Database.BeginTransaction())
+            using var transaction = _dbContext.Database.BeginTransaction();
+            var user = await _entityRepository.AddOwner(userToCreate, null);
+            try
             {
-                var user = await _entityRepository.AddOwner(userToCreate, null);
-                try
-                {
-                    var confirmationKey = await SendConfirmEmailMail(userToCreate, userRegistrationModel.ConfirmationUrl);
+                var confirmationKey = await SendConfirmEmailMail(userToCreate, userRegistrationModel.ConfirmationUrl);
 
-                    await transaction.CommitAsync();
+                await transaction.CommitAsync();
 
-                    return new UserRegistrationResponseModel(user.Id, confirmationKey);
-                }
-                catch
-                {
-                    await transaction.RollbackAsync();
-                    throw;
-                }
+                return new UserRegistrationResponseModel(user.Id, confirmationKey);
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
             }
         }
 
@@ -110,15 +112,21 @@ namespace FreeSecur.API.Logic.UserLogic
             return encodedConfirmationKey;
         }
 
-        public async Task<UserReadModel> UpdatePersonalData(int id, UserUpdateModel userUpdateModel)
+        /// <summary>
+        /// Updates personal data  based on given model for the currently logged in user
+        /// </summary>
+        /// <param name="userUpdateModel"></param>
+        /// <returns></returns>
+        public async Task<UserReadModel> UpdatePersonalData(UserUpdateModel userUpdateModel)
         {
-            var userToEdit = await _entityRepository.GetEntity<User>(x => x.Id == id);
+            if (!_authenticationService.IsAuthenticated) throw new StatusCodeException(HttpStatusCode.Unauthorized);
+            var userId = _authenticationService.UserId;
 
-            if (userToEdit == null) throw new StatusCodeException($"User with id {id} does not exist", HttpStatusCode.NotFound);
+            var userToEdit = await _entityRepository.GetEntity<User>(x => x.Id == userId);
 
-            userToEdit.Email = userUpdateModel.Email;
-            userToEdit.FirstName = userUpdateModel.FirstName;
-            userToEdit.LastName = userUpdateModel.LastName;
+            userToEdit.Email = string.IsNullOrWhiteSpace(userUpdateModel.Email) ? userToEdit.Email : userUpdateModel.Email;
+            userToEdit.FirstName = string.IsNullOrWhiteSpace(userUpdateModel.FirstName) ? userToEdit.FirstName: userUpdateModel.FirstName;
+            userToEdit.LastName = string.IsNullOrWhiteSpace(userUpdateModel.LastName) ? userToEdit.LastName : userUpdateModel.LastName;
 
             var updatedEntity = await _entityRepository.UpdateEntity(userToEdit, null);
 

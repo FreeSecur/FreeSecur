@@ -13,7 +13,7 @@ namespace FreeSecur.API.Core.UnitTests.Validation
     [TestClass]
     public class ValidationTests
     {
-        private ReflectionService _reflectionService;
+        private readonly ReflectionService _reflectionService;
         public ValidationTests()
         {
             _reflectionService = new ReflectionService();

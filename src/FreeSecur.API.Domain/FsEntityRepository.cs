@@ -12,8 +12,8 @@ namespace FreeSecur.API.Domain
 {
     public class FsEntityRepository : IFsEntityRepository
     {
-        private FsDbContext _dbContext;
-        private IDateTimeProvider _dateTimeProvider;
+        private readonly FsDbContext _dbContext;
+        private readonly IDateTimeProvider _dateTimeProvider;
 
         public FsEntityRepository(
             FsDbContext dbContext,

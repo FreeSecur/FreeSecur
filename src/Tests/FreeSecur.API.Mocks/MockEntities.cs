@@ -19,7 +19,7 @@ namespace FreeSecur.API.Mocks
                 Email = "test@test.nl",
                 FirstName = "first",
                 Id = 1,
-                IsEmailConfirmed = true,
+                IsEmailConfirmed = false,
                 LastName = "last",
                 OwnerId = 1,
                 Password = "123",
@@ -121,9 +121,9 @@ namespace FreeSecur.API.Mocks
         public static void FillTrackedEntity(IFsTrackedEntity trackedEntity)
         {
             trackedEntity.CreatedById = TestUser().Id;
-            trackedEntity.CreatedOn = default(DateTime);
+            trackedEntity.CreatedOn = default;
             trackedEntity.ModifiedById = TestUser().Id;
-            trackedEntity.ModifiedOn = default(DateTime);
+            trackedEntity.ModifiedOn = default;
             trackedEntity.Timestamp = new byte[10];
         }
     }

@@ -26,7 +26,7 @@ namespace FreeSecur.API.Logic.AccessManagement
 
         private class CustomClaim
         {
-            public const string UserId = "userId";
+            public const string UserId = _userIdClaim;
         }
 
         public AccessManagementService(

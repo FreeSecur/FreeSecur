@@ -20,7 +20,6 @@ namespace FreeSecur.API.Logic.VaultManagement
 
         public VaultInformationService(
             IAuthenticationService authenticationService,
-            IFsEntityRepository entityRepository,
             FsDbContext dbContext)
         {
             _authenticationService = authenticationService;

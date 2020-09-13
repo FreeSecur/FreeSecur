@@ -1,14 +1,18 @@
 ﻿using FreeSecur.API.Core.Cryptography;
 using FreeSecur.API.Core.GeneralHelpers;
+using FreeSecur.API.Core.Mailing;
 using FreeSecur.API.Domain;
 using FreeSecur.API.Logic.AccessManagement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Moq;
 using System;
+using System.Threading.Tasks;
 
 namespace FreeSecur.API.Mocks
 {
+
+
     public static class MockServices
     {
         private static FsDbContext _fsDbContext;
@@ -40,6 +44,20 @@ namespace FreeSecur.API.Mocks
             _fsDbContext = dbContext;
 
             return dbContext;
+        }
+
+        public static IEncryptionService EncryptionServiceMock()
+        {
+            return new EncryptionServiceMock();
+        }
+
+        public static Mock<IMailService> MailServiceMock()
+        {
+            var mock = new Mock<IMailService>();
+
+            mock.Setup(x => x.SendMail(It.IsAny<MailMessage<It.IsAnyType>>())).Returns(Task.CompletedTask);
+
+            return mock;
         }
 
         public static Mock<IAuthenticationService> AuthenticationServiceMock()

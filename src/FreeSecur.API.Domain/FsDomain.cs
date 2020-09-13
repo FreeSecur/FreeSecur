@@ -14,7 +14,7 @@ namespace FreeSecur.API.Domain
             var settingsSection = fsCoreConfigurer.Configuration.GetSection(nameof(FsDomainSettings));
             var settings = settingsSection.Get<FsDomainSettings>();
 
-            fsCoreConfigurer.Services.AddDbContextPool<FsDbContext>(options => {
+            fsCoreConfigurer.Services.AddDbContext<FsDbContext>(options => {
                 options.UseSqlServer(settings.ConnectionString);
             });
 

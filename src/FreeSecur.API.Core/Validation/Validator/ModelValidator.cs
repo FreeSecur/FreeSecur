@@ -1,5 +1,6 @@
 ﻿using FreeSecur.API.Core.Reflection;
 using FreeSecur.API.Core.Validation.Attributes;
+using FreeSecur.API.Core.Validation.ErrorCodes;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,6 +79,14 @@ namespace FreeSecur.API.Core.Validation.Validator
                 .Select(validationAttribute => validationAttribute.GetErrorCode())
                 .ToList();
 
+
+            //In case of notrequiredattribute this will override any required codes
+            if (reflectionPropertyInfo.CustomAttributes.Any(x => x is FsNotRequiredAttribute))
+            {
+                errorCodes = errorCodes
+                    .Where(x => x != FieldValidationErrorCode.Required)
+                    .ToList();
+            }
 
             var subFieldValidationResults = new List<FieldValidationResult>();
             if (propertyValue != null)
