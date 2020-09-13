@@ -1,9 +1,7 @@
 ﻿using FreeSecur.API.Core.Cryptography;
-using FreeSecur.API.Core.Serialization;
-using Microsoft.Extensions.Options;
+using FreeSecur.API.Core.UnitTests.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Security.Cryptography;
-using System.Text.Json;
 
 namespace FreeSecur.API.Core.UnitTests.Cryptography
 {

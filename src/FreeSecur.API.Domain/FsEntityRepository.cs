@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FreeSecur.API.Domain
 {
-    internal class FsEntityRepository : IFsEntityRepository
+    public class FsEntityRepository : IFsEntityRepository
     {
         private FsDbContext _dbContext;
         private IDateTimeProvider _dateTimeProvider;

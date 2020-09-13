@@ -6,6 +6,6 @@ namespace FreeSecur.API.Logic.AccessManagement
     public interface IAuthenticationService
     {
         bool IsAuthenticated { get; }
-        int UserId { get; }
+        long UserId { get; }
     }
 }

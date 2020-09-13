@@ -10,10 +10,10 @@ namespace FreeSecur.API.Logic.AccessManagement
     public class AuthenticationService : IMiddleware, IAuthenticationService
     {
 
-        private int? _userId;
+        private long? _userId;
         public bool IsAuthenticated => _userId.HasValue;
 
-        public int UserId
+        public long UserId
         {
             get
             {
@@ -39,7 +39,7 @@ namespace FreeSecur.API.Logic.AccessManagement
             await next(context);
         }
 
-        internal void UpdateUser(int? userId)
+        internal void UpdateUser(long? userId)
         {
             _userId = userId;
         }
