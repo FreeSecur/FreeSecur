@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FreeSecur.API.Domain.Migrations
 {
     [DbContext(typeof(FsDbContext))]
-    [Migration("20200913123847_vault-secret-id-now-FK")]
-    partial class vaultsecretidnowFK
+    [Migration("20200913124106_initial-migration")]
+    partial class initialmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

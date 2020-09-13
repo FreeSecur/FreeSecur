@@ -5,39 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20200716210602_initial.cs" />
-    <Compile Remove="Migrations\20200716210602_initial.Designer.cs" />
-    <Compile Remove="Migrations\20200725160959_organisation-update.cs" />
-    <Compile Remove="Migrations\20200725160959_organisation-update.Designer.cs" />
-    <Compile Remove="Migrations\20200725161609_organisation-update2.cs" />
-    <Compile Remove="Migrations\20200725161609_organisation-update2.Designer.cs" />
-    <Compile Remove="Migrations\20200725162736_organisation-update2.cs" />
-    <Compile Remove="Migrations\20200725162736_organisation-update2.Designer.cs" />
-    <Compile Remove="Migrations\20200725163018_tracking-fk-action-fix.cs" />
-    <Compile Remove="Migrations\20200725163018_tracking-fk-action-fix.Designer.cs" />
-    <Compile Remove="Migrations\20200725163536_tracking-fk-action-fix.cs" />
-    <Compile Remove="Migrations\20200725163536_tracking-fk-action-fix.Designer.cs" />
-    <Compile Remove="Migrations\20200725163712_tracking-fk-action-fix.cs" />
-    <Compile Remove="Migrations\20200725163712_tracking-fk-action-fix.Designer.cs" />
-    <Compile Remove="Migrations\20200725163740_tracking-fk-action-fix.cs" />
-    <Compile Remove="Migrations\20200725163740_tracking-fk-action-fix.Designer.cs" />
-    <Compile Remove="Migrations\20200725163953_intial.cs" />
-    <Compile Remove="Migrations\20200725163953_intial.Designer.cs" />
-    <Compile Remove="Migrations\20200725164135_intial.cs" />
-    <Compile Remove="Migrations\20200725164135_intial.Designer.cs" />
-    <Compile Remove="Migrations\20200725164516_initial-migration.cs" />
-    <Compile Remove="Migrations\20200725164516_initial-migration.Designer.cs" />
-    <Compile Remove="Migrations\20200725164859_initial-migration.cs" />
-    <Compile Remove="Migrations\20200725164859_initial-migration.Designer.cs" />
-    <Compile Remove="Migrations\20200725170849_identity-columns-added.cs" />
-    <Compile Remove="Migrations\20200725170849_identity-columns-added.Designer.cs" />
-    <Compile Remove="Migrations\20200725171024_identity-columns-added.cs" />
-    <Compile Remove="Migrations\20200725171024_identity-columns-added.Designer.cs" />
-    <Compile Remove="Migrations\20200726143819_added-username.cs" />
-    <Compile Remove="Migrations\20200726143819_added-username.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Entities\VaultOwners\VaultOwner.cs~RFb6a5e19.TMP" />
   </ItemGroup>
 
