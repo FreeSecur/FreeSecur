@@ -33,7 +33,7 @@ namespace FreeSecur.API.Controllers
 
         [HttpPost]
         [SwaggerResponse((int)HttpStatusCode.OK, "Created vault id", typeof(long))]
-        public async Task<int> Create([FromBody] VaultCreateModel vaultCreateModel)
+        public async Task<long> Create([FromBody] VaultCreateModel vaultCreateModel)
         {
             var vaultId = await _vaultService.CreateVaultForAuthenticatedUser(vaultCreateModel);
 

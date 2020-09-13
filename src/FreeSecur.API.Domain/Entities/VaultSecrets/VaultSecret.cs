@@ -10,18 +10,15 @@ namespace FreeSecur.API.Domain.Entities.VaultSecrets
     public class VaultSecret : IFsTrackedEntity, IVaultItem
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
-        [FsRequired]
-        public int VaultItemId { get; set; }
-        [ForeignKey(nameof(VaultItemId))]
+        [ForeignKey(nameof(Id))]
         public VaultItem VaultItem { get; set; }
 
         [FsRequired]
-        public int CreatedById { get; set; }
+        public long CreatedById { get; set; }
         [FsRequired]
-        public int ModifiedById { get; set; }
+        public long ModifiedById { get; set; }
         [FsRequired]
         public DateTime CreatedOn { get; set; }
         [FsRequired]

@@ -11,16 +11,16 @@ namespace FreeSecur.API.Domain.VaultItems
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public long Id { get; set; }
         [FsRequired]
-        public int VaultId { get; set; }
+        public long VaultId { get; set; }
         [FsRequired]
         public string Key { get; set; }
 
         [FsRequired]
-        public int CreatedById { get; set; }
+        public long CreatedById { get; set; }
         [FsRequired]
-        public int ModifiedById { get; set; }
+        public long ModifiedById { get; set; }
         [FsRequired]
         public DateTime CreatedOn { get; set; }
         [FsRequired]

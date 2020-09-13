@@ -9,7 +9,7 @@ namespace FreeSecur.API.Domain.Entities.Owners
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public long Id { get; set; }
         [Timestamp]
         public byte[] Timestamp { get; set; }
 

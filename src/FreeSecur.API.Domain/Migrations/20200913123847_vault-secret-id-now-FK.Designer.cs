@@ -4,14 +4,16 @@ using FreeSecur.API.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FreeSecur.API.Domain.Migrations
 {
     [DbContext(typeof(FsDbContext))]
-    partial class FsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200913123847_vault-secret-id-now-FK")]
+    partial class vaultsecretidnowFK
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -14,18 +14,18 @@ namespace FreeSecur.API.Domain.Entities.Teams
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public long Id { get; set; }
         [FsRequired]
         public string Name { get; set; }
         [FsRequired]
-        public int OrganisationId { get; set; }
+        public long OrganisationId { get; set; }
         [ForeignKey(nameof(OrganisationId))]
         public Organisation Organisation { get; set; }
 
         [FsRequired]
-        public int CreatedById { get; set; }
+        public long CreatedById { get; set; }
         [FsRequired]
-        public int ModifiedById { get; set; }
+        public long ModifiedById { get; set; }
         [FsRequired]
         public DateTime CreatedOn { get; set; }
         [FsRequired]
@@ -38,7 +38,7 @@ namespace FreeSecur.API.Domain.Entities.Teams
         public byte[] Timestamp { get; set; }
 
         [FsRequired]
-        public int OwnerId { get; set; }
+        public long OwnerId { get; set; }
         [ForeignKey(nameof(OwnerId))]
         public Owner Owner { get; set; }
 

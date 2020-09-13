@@ -14,7 +14,7 @@ namespace FreeSecur.API.Domain.Entities.Users
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public long Id { get; set; }
         [FsRequired]
         [FsEmailAddress]
         public string Email { get; set; }
@@ -36,7 +36,7 @@ namespace FreeSecur.API.Domain.Entities.Users
         [Timestamp]
         public byte[] Timestamp { get; set; }
         [FsRequired]
-        public int OwnerId { get; set; }
+        public long OwnerId { get; set; }
         [ForeignKey(nameof(OwnerId))]
         public Owner Owner { get; set; }
 

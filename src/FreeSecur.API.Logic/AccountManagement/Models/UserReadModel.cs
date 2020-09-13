@@ -18,7 +18,7 @@ namespace FreeSecur.API.Logic.UserLogic.Models
             LastName = user.LastName;
         }
 
-        public int? Id { get; set; }
+        public long? Id { get; set; }
         public string Email { get; set; }
         public string Username { get; set; }
         public string FirstName { get; set; }

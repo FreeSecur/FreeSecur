@@ -8,13 +8,13 @@ namespace FreeSecur.API.Logic.VaultManagement.Models
 {
     public class VaultDetailsModel
     {
-        public VaultDetailsModel(int id, string name)
+        public VaultDetailsModel(long id, string name)
         {
             this.Id = id;
             this.Name = name;
         }
 
-        public int Id { get; }
+        public long Id { get; }
         public string Name { get; }
     }
 }

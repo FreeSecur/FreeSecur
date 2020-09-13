@@ -37,7 +37,7 @@ namespace FreeSecur.API.Logic.VaultManagement
             _hashService = hashService;
         }
 
-        public async Task<int> CreateVaultForAuthenticatedUser(VaultCreateModel vaultCreateModel)
+        public async Task<long> CreateVaultForAuthenticatedUser(VaultCreateModel vaultCreateModel)
         {
             if (!_authenticationService.IsAuthenticated)
             {
@@ -67,7 +67,7 @@ namespace FreeSecur.API.Logic.VaultManagement
             }
         }
 
-        private async Task<int> CreateVaultOwner(int vaultId, int ownerId, int createdByUserId)
+        private async Task<long> CreateVaultOwner(long vaultId, long ownerId, long createdByUserId)
         {
             var vaultOwner = new VaultOwner
             {
@@ -81,8 +81,8 @@ namespace FreeSecur.API.Logic.VaultManagement
         }
 
         private async Task CreateVaultOwnerRights(
-            int vaultOwnerId, 
-            int createdByUserId,
+            long vaultOwnerId,
+            long createdByUserId,
             params VaultOwnerRightType[] accessRights)
         {
             var vaultOwnerRights = accessRights.Select(accessRight =>
@@ -95,7 +95,7 @@ namespace FreeSecur.API.Logic.VaultManagement
             await _entityRepository.AddEntities(vaultOwnerRights, createdByUserId);
         }
 
-        private async Task<int> CreateVault(VaultCreateModel vaultCreateModel, int createdByUserId)
+        private async Task<long> CreateVault(VaultCreateModel vaultCreateModel, long createdByUserId)
         {
             var hashedMasterKey = _hashService.GetHash(vaultCreateModel.MasterKey);
             var vault = new Vault

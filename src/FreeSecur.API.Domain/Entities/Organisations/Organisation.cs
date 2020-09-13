@@ -13,14 +13,14 @@ namespace FreeSecur.API.Domain.Entities.Organisations
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public long Id { get; set; }
         [FsRequired]
         public string Name { get; set; }
 
         [FsRequired]
-        public int CreatedById { get; set; }
+        public long CreatedById { get; set; }
         [FsRequired]
-        public int ModifiedById { get; set; }
+        public long ModifiedById { get; set; }
         [FsRequired]
         public DateTime CreatedOn { get; set; }
         [FsRequired]

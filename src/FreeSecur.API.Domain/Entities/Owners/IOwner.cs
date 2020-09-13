@@ -2,7 +2,7 @@
 {
     public interface IOwner
     {
-        public int OwnerId { get; set; }
+        public long OwnerId { get; set; }
         public Owner Owner { get; set; }
     }
 }

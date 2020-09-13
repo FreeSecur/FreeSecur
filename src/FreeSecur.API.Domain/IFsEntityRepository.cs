@@ -33,7 +33,7 @@ namespace FreeSecur.API.Domain
         /// <param name="entity"></param>
         /// <param name="userId"></param>
         /// <returns>Untracked updated entity</returns>
-        Task<TEntity> UpdateEntity<TEntity>(TEntity entity, int? userId) where TEntity : class, IFsEntity;
+        Task<TEntity> UpdateEntity<TEntity>(TEntity entity, long? userId) where TEntity : class, IFsEntity;
         /// <summary>
         /// Attaches entity and adds entity to the database
         /// </summary>
@@ -41,7 +41,7 @@ namespace FreeSecur.API.Domain
         /// <param name="entity"></param>
         /// <param name="userId"></param>
         /// <returns>Untracked updated entity</returns>
-        Task<TEntity> AddEntity<TEntity>(TEntity entity, int? userId) where TEntity : class, IFsEntity;
+        Task<TEntity> AddEntity<TEntity>(TEntity entity, long? userId) where TEntity : class, IFsEntity;
         /// <summary>
         /// Attaches and adds range of entities to the databases
         /// </summary>
@@ -49,7 +49,7 @@ namespace FreeSecur.API.Domain
         /// <param name="entities"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<List<TEntity>> AddEntities<TEntity>(List<TEntity> entities, int? userId) where TEntity : class, IFsEntity;
+        Task<List<TEntity>> AddEntities<TEntity>(List<TEntity> entities, long? userId) where TEntity : class, IFsEntity;
         /// <summary>
         /// Removes detached entity from database
         /// </summary>
@@ -64,7 +64,7 @@ namespace FreeSecur.API.Domain
         /// <param name="entity"></param>
         /// <param name="userId"></param>
         /// <returns>Untracked created entity</returns>
-        Task<TEntity> AddOwner<TEntity>(TEntity entity, int? userId) where TEntity : class, IFsEntity, IOwner;
+        Task<TEntity> AddOwner<TEntity>(TEntity entity, long? userId) where TEntity : class, IFsEntity, IOwner;
         /// <summary>
         /// Removes entity and removes owner from the database
         /// </summary>

@@ -57,7 +57,7 @@ namespace FreeSecur.API.Domain
 
         public async Task<TEntity> UpdateEntity<TEntity>(
             TEntity entity,
-            int? userId)
+            long? userId)
             where TEntity : class, IFsEntity
         {
 
@@ -86,7 +86,7 @@ namespace FreeSecur.API.Domain
         
         public async Task<TEntity> AddEntity<TEntity>(
             TEntity entity,
-            int? userId)
+            long? userId)
             where TEntity : class, IFsEntity
         {
             AddEntityModificationTracking(entity, userId);
@@ -99,7 +99,7 @@ namespace FreeSecur.API.Domain
             return entity;
         }
 
-        public async Task<List<TEntity>> AddEntities<TEntity>(List<TEntity> entities, int? userId)
+        public async Task<List<TEntity>> AddEntities<TEntity>(List<TEntity> entities, long? userId)
             where TEntity : class, IFsEntity
         {
             foreach(var entity in entities)
@@ -146,7 +146,7 @@ namespace FreeSecur.API.Domain
             return entityToRemove;
         }
 
-        public async Task<TEntity> AddOwner<TEntity>(TEntity entity, int? userId)
+        public async Task<TEntity> AddOwner<TEntity>(TEntity entity, long? userId)
             where TEntity: class, IFsEntity, IOwner
         {
             var owner = new Owner
@@ -166,7 +166,7 @@ namespace FreeSecur.API.Domain
         }
 
 
-        private void AddEntityModificationTracking<TEntity>(TEntity entity, int? userId) where TEntity : class, IFsEntity
+        private void AddEntityModificationTracking<TEntity>(TEntity entity, long? userId) where TEntity : class, IFsEntity
         {
             if (entity is IFsTrackedEntity trackedEntity)
             {

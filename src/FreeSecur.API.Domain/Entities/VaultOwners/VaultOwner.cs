@@ -14,16 +14,16 @@ namespace FreeSecur.API.Domain.Entities.VaultOwners
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public long Id { get; set; }
         [FsRequired]
-        public int VaultId { get; set; }
+        public long VaultId { get; set; }
         [FsRequired]
-        public int OwnerId { get; set; }
+        public long OwnerId { get; set; }
 
         [FsRequired]
-        public int CreatedById { get; set; }
+        public long CreatedById { get; set; }
         [FsRequired]
-        public int ModifiedById { get; set; }
+        public long ModifiedById { get; set; }
         [FsRequired]
         public DateTime CreatedOn { get; set; }
         [FsRequired]

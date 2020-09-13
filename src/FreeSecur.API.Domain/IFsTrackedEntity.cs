@@ -5,8 +5,8 @@ namespace FreeSecur.API.Domain
 {
     public interface IFsTrackedEntity : IFsEntity
     {
-        int CreatedById { get; set; }
-        int ModifiedById { get; set; }
+        long CreatedById { get; set; }
+        long ModifiedById { get; set; }
         DateTime CreatedOn { get; set; }
         DateTime ModifiedOn { get; set; }
         public User CreatedByUser { get; set; }

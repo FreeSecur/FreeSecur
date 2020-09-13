@@ -4,14 +4,16 @@ using FreeSecur.API.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FreeSecur.API.Domain.Migrations
 {
     [DbContext(typeof(FsDbContext))]
-    partial class FsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200913123708_all-ids-longs")]
+    partial class allidslongs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -435,7 +437,9 @@ namespace FreeSecur.API.Domain.Migrations
             modelBuilder.Entity("FreeSecur.API.Domain.Entities.VaultSecrets.VaultSecret", b =>
                 {
                     b.Property<long>("Id")
-                        .HasColumnType("bigint");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
 
                     b.Property<long>("CreatedById")
                         .HasColumnType("bigint");
@@ -454,11 +458,16 @@ namespace FreeSecur.API.Domain.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
 
+                    b.Property<long>("VaultItemId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedById");
 
                     b.HasIndex("ModifiedById");
+
+                    b.HasIndex("VaultItemId");
 
                     b.ToTable("VaultSecrets");
                 });
@@ -759,15 +768,15 @@ namespace FreeSecur.API.Domain.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("FreeSecur.API.Domain.VaultItems.VaultItem", "VaultItem")
-                        .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("FreeSecur.API.Domain.Entities.Users.User", "ModifiedByUser")
                         .WithMany()
                         .HasForeignKey("ModifiedById")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FreeSecur.API.Domain.VaultItems.VaultItem", "VaultItem")
+                        .WithMany()
+                        .HasForeignKey("VaultItemId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

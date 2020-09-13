@@ -14,16 +14,16 @@ namespace FreeSecur.API.Domain.Entities.OrganisationUsers
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public long Id { get; set; }
         [FsRequired]
-        public int UserId { get; set; }
+        public long UserId { get; set; }
         [FsRequired]
-        public int OrganistationId { get; set; }
+        public long OrganistationId { get; set; }
 
         [FsRequired]
-        public int CreatedById { get; set; }
+        public long CreatedById { get; set; }
         [FsRequired]
-        public int ModifiedById { get; set; }
+        public long ModifiedById { get; set; }
         [FsRequired]
         public DateTime CreatedOn { get; set; }
         [FsRequired]
@@ -42,7 +42,7 @@ namespace FreeSecur.API.Domain.Entities.OrganisationUsers
 
         [InverseProperty(nameof(OrganisationUserRight.OrganisationUser))]
         public ICollection<OrganisationUserRight> OrganisationUserRights { get; set; }
-        public int OwnerId { get; set; }
+        public long OwnerId { get; set; }
         [ForeignKey(nameof(OwnerId))]
         public Owner Owner { get; set; }
     }

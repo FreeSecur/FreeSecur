@@ -29,7 +29,7 @@ namespace FreeSecur.API.Controllers
 
         [HttpPost("Register")]
         [AllowAnonymous]
-        [SwaggerResponse((int)HttpStatusCode.OK, "Created user id", typeof(int))]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Created user id and confirmation code", typeof(UserRegistrationResponseModel))]
         public async Task<UserRegistrationResponseModel> Register([FromBody] UserRegistrationModel registrationModel)
         {
             var user = await _accountManagementService.Register(registrationModel);
