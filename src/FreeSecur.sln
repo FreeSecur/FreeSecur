@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreeSecur.API", "FreeSecur.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreeSecur.API.Core.UnitTests", "Tests\FreeSecur.API.Core.UnitTests\FreeSecur.API.Core.UnitTests.csproj", "{220F5AD8-7758-469A-A7A0-A8141C9E401B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeSecur.API.Logic.UnitTests", "Tests\FreeSecur.API.Logic.UnitTests\FreeSecur.API.Logic.UnitTests.csproj", "{391BA8E0-FF77-4C75-9DCC-64556AC3DFC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeSecur.API.Mocks", "Tests\FreeSecur.API.Mocks\FreeSecur.API.Mocks.csproj", "{F1917FD2-3C01-41D6-A5F3-91E9FC45B1AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,12 +51,22 @@ Global
 		{220F5AD8-7758-469A-A7A0-A8141C9E401B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{220F5AD8-7758-469A-A7A0-A8141C9E401B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{220F5AD8-7758-469A-A7A0-A8141C9E401B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{391BA8E0-FF77-4C75-9DCC-64556AC3DFC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{391BA8E0-FF77-4C75-9DCC-64556AC3DFC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{391BA8E0-FF77-4C75-9DCC-64556AC3DFC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{391BA8E0-FF77-4C75-9DCC-64556AC3DFC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1917FD2-3C01-41D6-A5F3-91E9FC45B1AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1917FD2-3C01-41D6-A5F3-91E9FC45B1AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1917FD2-3C01-41D6-A5F3-91E9FC45B1AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1917FD2-3C01-41D6-A5F3-91E9FC45B1AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{220F5AD8-7758-469A-A7A0-A8141C9E401B} = {81044BE9-771B-48F6-BFF8-188235F0D01E}
+		{391BA8E0-FF77-4C75-9DCC-64556AC3DFC7} = {81044BE9-771B-48F6-BFF8-188235F0D01E}
+		{F1917FD2-3C01-41D6-A5F3-91E9FC45B1AD} = {81044BE9-771B-48F6-BFF8-188235F0D01E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5987C7FE-4191-4BA0-8809-10ADA1BEA6D9}

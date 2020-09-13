@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FreeSecur.API.Core.UnitTests
+namespace FreeSecur.API.Core.UnitTests.Mocks
 {
     public class OptionsMock<T> : IOptions<T>, IOptionsSnapshot<T>, IOptionsMonitor<T>
         where T : class
