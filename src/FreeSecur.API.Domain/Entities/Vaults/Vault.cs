@@ -19,6 +19,8 @@ namespace FreeSecur.API.Domain.Entities.Vaults
         [FsRequired]
         [FsMinLength(10)]
         public string MasterKey { get; set; }
+        [FsRequired]
+        public string MasterKeySalt { get; set; }
 
         [FsRequired]
         public int CreatedById { get; set; }

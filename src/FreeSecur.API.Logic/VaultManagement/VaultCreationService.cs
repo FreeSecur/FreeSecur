@@ -100,7 +100,8 @@ namespace FreeSecur.API.Logic.VaultManagement
             var hashedMasterKey = _hashService.GetHash(vaultCreateModel.MasterKey);
             var vault = new Vault
             {
-                MasterKey = hashedMasterKey,
+                MasterKey = hashedMasterKey.Hash,
+                MasterKeySalt = hashedMasterKey.Salt,
                 Name = vaultCreateModel.Name
             };
             var createdVault = await _entityRepository.AddEntity(vault, createdByUserId);

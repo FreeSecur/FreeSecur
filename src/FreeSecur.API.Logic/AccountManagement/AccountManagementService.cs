@@ -63,7 +63,8 @@ namespace FreeSecur.API.Logic.UserLogic
                 Username = userRegistrationModel.Username,
                 FirstName = userRegistrationModel.FirstName,
                 LastName = userRegistrationModel.LastName,
-                Password = passwordHash,
+                Password = passwordHash.Hash,
+                PasswordSalt = passwordHash.Salt,
                 IsEmailConfirmed = false
             };
             

@@ -44,7 +44,7 @@ namespace FreeSecur.API.Logic.AccessManagement
             var user = await _fsEntityRepository.GetEntity<User>(x => x.Email == loginModel.Username || x.Username == loginModel.Username);
             if (user == null) throw new ErrorCodeException(LoginErrorCode.InvalidCredentials);
 
-            var passwordIsCorrect = _hashService.Verify(loginModel.Password, user.Password);
+            var passwordIsCorrect = _hashService.Verify(loginModel.Password, user.Password, user.PasswordSalt);
             if (!passwordIsCorrect) throw new ErrorCodeException(LoginErrorCode.InvalidCredentials);
 
             if (!user.IsEmailConfirmed) throw new ErrorCodeException(LoginErrorCode.EmailNotConfirmed);

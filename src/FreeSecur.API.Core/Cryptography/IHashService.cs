@@ -2,7 +2,7 @@
 {
     public interface IHashService
     {
-        string GetHash(string plainText);
-        bool Verify(string plainText, string hash);
+        HashResult GetHash(string plainText);
+        bool Verify(string plainText, string hash, string salt);
     }
 }

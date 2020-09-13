@@ -34,12 +34,13 @@ namespace FreeSecur.API.Core
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
             services.AddSingleton<IEncryptionService, AesEncryptionService>();
             services.AddSingleton<IHashService, BCryptHashService>();
+            services.AddSingleton<ISecureRandomGenerator, SecureRandomGenerator>();
             services.AddSingleton<IMailService, MailService>();
             services.AddSingleton<IUrlService, UrlService>();
             services.AddSingleton<IExceptionHandler<StatusCodeException>, StatusCodeExceptionHandler>();
             services.AddSingleton<IExceptionHandler<ErrorCodeException>, ErrorCodeExceptionHandler>();
 
-            services.Configure<Mail>(configuration.GetSection(nameof(Mail)));
+            services.Configure<FsMail>(configuration.GetSection(nameof(FsMail)));
             services.Configure<FsEncryption>(configuration.GetSection(nameof(FsEncryption)));
 
             var configurer = new CoreConfigurer(services, configuration);

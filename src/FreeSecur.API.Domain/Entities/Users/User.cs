@@ -25,6 +25,8 @@ namespace FreeSecur.API.Domain.Entities.Users
         [FsMinLength(10)]
         public string Password { get; set; }
         [FsRequired]
+        public string PasswordSalt { get; set; }
+        [FsRequired]
         public string FirstName { get; set; }
         [FsRequired]
         public string LastName { get; set; }
