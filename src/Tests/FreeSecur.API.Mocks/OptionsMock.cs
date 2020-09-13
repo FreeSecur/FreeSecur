@@ -1,11 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FreeSecur.API.Core.UnitTests.Mocks
+namespace FreeSecur.API.Mocks
 {
     public class OptionsMock<T> : IOptions<T>, IOptionsSnapshot<T>, IOptionsMonitor<T>
         where T : class

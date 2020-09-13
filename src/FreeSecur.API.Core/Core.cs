@@ -10,7 +10,9 @@ using FreeSecur.API.Core.Url;
 using FreeSecur.API.Core.Validation.Validator;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
+using System.Net.Mail;
 
 namespace FreeSecur.API.Core
 {
@@ -39,6 +41,8 @@ namespace FreeSecur.API.Core
             services.AddSingleton<IUrlService, UrlService>();
             services.AddSingleton<IExceptionHandler<StatusCodeException>, StatusCodeExceptionHandler>();
             services.AddSingleton<IExceptionHandler<ErrorCodeException>, ErrorCodeExceptionHandler>();
+            services.AddSingleton<ISmtpClient, FsSmtpClient>();
+
 
             services.Configure<FsMail>(configuration.GetSection(nameof(FsMail)));
             services.Configure<FsEncryption>(configuration.GetSection(nameof(FsEncryption)));

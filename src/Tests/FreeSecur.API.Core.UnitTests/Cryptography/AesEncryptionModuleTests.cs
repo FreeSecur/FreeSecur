@@ -1,5 +1,5 @@
 ﻿using FreeSecur.API.Core.Cryptography;
-using FreeSecur.API.Core.UnitTests.Mocks;
+using FreeSecur.API.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Security.Cryptography;
 

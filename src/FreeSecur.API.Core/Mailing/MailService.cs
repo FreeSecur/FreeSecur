@@ -12,20 +12,22 @@ namespace FreeSecur.API.Core.Mailing
     {
         private readonly IOptions<FsMail> _fsMailOptions;
         private readonly StringInterpolationService _stringInterpolationService;
+        private readonly ISmtpClient _smtpClient;
 
         public MailService(
             IOptions<FsMail> fsMailOptions,
-            StringInterpolationService stringInterpolationService)
+            StringInterpolationService stringInterpolationService,
+            ISmtpClient smtpClient)
         {
             _fsMailOptions = fsMailOptions;
             _stringInterpolationService = stringInterpolationService;
+            _smtpClient = smtpClient;
         }
 
         public async Task SendMail<T>(MailMessage<T> fsMailMessage)
             where T : class
         {
             var fsMailSettings = _fsMailOptions.Value;
-            var smtpClient = new SmtpClient(fsMailSettings.Host, fsMailSettings.Port);
 
             var message = new MailMessage();
             message.To.AddRange(fsMailMessage.ToAddresses.ToArray());
@@ -37,7 +39,7 @@ namespace FreeSecur.API.Core.Mailing
             message.Subject = subject;
             message.Body = body;
 
-            await smtpClient.SendMailAsync(message);
+            await _smtpClient.SendMailAsync(message);
         }
     }
 }
