@@ -45,7 +45,15 @@ namespace FreeSecur.API.Controllers
             await _accountManagementService.ConfirmEmail(key);
         }
 
-        [HttpGet("vaults")]
+        [HttpGet("Vault/{id}")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Returns all personal user vaults", typeof(VaultDetailsModel))]
+        public async Task<VaultDetailsModel> GetVaultForAccount(long id)
+        {
+            return await _vaultInformationService.GetVaultForAuthorizedUser(id);
+        }
+
+
+        [HttpGet("Vault/List")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Returns all personal user vaults", typeof(List<VaultDetailsModel>))]
         public async Task<List<VaultDetailsModel>> GetVaultsForAccount()
         {
