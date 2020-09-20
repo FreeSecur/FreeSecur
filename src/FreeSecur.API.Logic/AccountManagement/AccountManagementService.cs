@@ -8,51 +8,42 @@ using FreeSecur.API.Logic.AccountManagement.Models;
 using FreeSecur.API.Logic.UserLogic.Models;
 using System.Net;
 using System.Threading.Tasks;
-using System.Web;
 using FreeSecur.API.Logic.AccessManagement;
+using FreeSecur.API.Core.GeneralHelpers;
 
-namespace FreeSecur.API.Logic.UserLogic
+namespace FreeSecur.API.Logic.AccountManagement
 {
     public class AccountManagementService
     {
         private readonly IFsEntityRepository _entityRepository;
         private readonly IHashService _hashService;
         private readonly IMailService _mailService;
-        private readonly IEncryptionService _encryptionService;
         private readonly FsDbContext _dbContext;
         private readonly IAuthenticationService _authenticationService;
+        private readonly IVerificationService _verificationService;
 
         public AccountManagementService(
             IFsEntityRepository entityRepository,
             IHashService hashService,
             IMailService mailService,
-            IEncryptionService encryptionService, 
             FsDbContext dbContext,
-            IAuthenticationService authenticationService)
+            IAuthenticationService authenticationService,
+            IVerificationService verificationService
+            )
         {
             _entityRepository = entityRepository;
             _hashService = hashService;
             _mailService = mailService;
-            _encryptionService = encryptionService;
             _dbContext = dbContext;
             _authenticationService = authenticationService;
+            _verificationService = verificationService;
         }
 
         public async Task ConfirmEmail(string key)
         {
             if (string.IsNullOrWhiteSpace(key)) throw new StatusCodeException(HttpStatusCode.BadRequest);
-
-            var decodedKey = HttpUtility.UrlDecode(key);
-            var userReadModel = _encryptionService.DecryptModel<UserReadModel>(decodedKey);
-
-            if (!userReadModel.Id.HasValue) throw new StatusCodeException(HttpStatusCode.BadRequest);
-
-            var user = await _entityRepository.GetEntity<User>(x => x.Id == userReadModel.Id.Value);
-
-            if (user == null) throw new StatusCodeException(HttpStatusCode.BadRequest);
-
+            var user = await _verificationService.ValidateVerificationKey(key, UserVerificationType.ConfirmEmail);
             user.IsEmailConfirmed = true;
-
             await _entityRepository.UpdateEntity(user, null);
         }
 
@@ -78,11 +69,10 @@ namespace FreeSecur.API.Logic.UserLogic
             var user = await _entityRepository.AddOwner(userToCreate, null);
             try
             {
-                var confirmationKey = await SendConfirmEmailMail(userToCreate, userRegistrationModel.ConfirmationUrl);
-
+                await SendConfirmEmailMail(userToCreate, userRegistrationModel.ConfirmationUrl);
                 await transaction.CommitAsync();
 
-                return new UserRegistrationResponseModel(user.Id, confirmationKey);
+                return new UserRegistrationResponseModel(user.Id);
             }
             catch
             {
@@ -90,26 +80,40 @@ namespace FreeSecur.API.Logic.UserLogic
                 throw;
             }
         }
-
-        /// <summary>
-        /// Return the key that has been send
-        /// </summary>
-        /// <param name="userToCreate"></param>
-        /// <param name="confirmationUrl"></param>
-        /// <returns></returns>
-        public async Task<string> SendConfirmEmailMail(User userToCreate, string confirmationUrl)
+        public async Task SendConfirmEmailMail(User user, string confirmationUrl)
         {
-            var userReadModel = new UserReadModel(userToCreate);
-            var confirmationKey = _encryptionService.EncryptModel(userReadModel);
-            var encodedConfirmationKey = HttpUtility.UrlEncode(confirmationKey);
-
-            var confirmationUrlWithKey = $"{confirmationUrl}?key={encodedConfirmationKey}";
-            var confirmationMailModel = new ConfirmationMailModel(confirmationUrlWithKey, userToCreate.FirstName, userToCreate.LastName);
-            var message = new MailMessage<ConfirmationMailModel>(userToCreate.Email, MailResources.ConfirmEmail_Subject, MailResources.ConfirmEmail_Body, confirmationMailModel);
+            var confirmationUrlWithKey = _verificationService.CreateVerificationUrl(confirmationUrl, user, UserVerificationType.ConfirmEmail);
+            var confirmationMailModel = new ConfirmationMailModel(confirmationUrlWithKey, user.FirstName, user.LastName);
+            var message = new MailMessage<ConfirmationMailModel>(user.Email, MailResources.ConfirmEmail_Subject, MailResources.ConfirmEmail_Body, confirmationMailModel);
 
             await _mailService.SendMail(message);
+        }
 
-            return encodedConfirmationKey;
+        public async Task ResetPassword(UserPasswordResetModel userPasswordResetModel)
+        {
+            var user = await _verificationService.ValidateVerificationKey(userPasswordResetModel.Key, UserVerificationType.PasswordReset);
+            if (user.Email != userPasswordResetModel.Username && user.Username != userPasswordResetModel.Username) throw new StatusCodeException(HttpStatusCode.BadRequest);
+
+            var passwordHashResult = _hashService.GetHash(userPasswordResetModel.Password);
+
+            user.Password = passwordHashResult.Hash;
+            user.PasswordSalt = passwordHashResult.Salt;
+
+            await _entityRepository.UpdateEntity(user, null);
+        }
+
+        public async Task RequestPasswordReset(UserRequestPasswordResetModel resetModel)
+        {
+            var user = await _entityRepository.GetEntity<User>(x => x.Email == resetModel.Username || x.Username == resetModel.Username);
+
+            //Just return if user is null, dont throw any exceptions as this could be used as indication wether user exists or not
+            if (user == null) return;
+
+            var passwordResetUrlWithKey = _verificationService.CreateVerificationUrl(resetModel.PasswordResetUrl, user, UserVerificationType.PasswordReset);
+            var passwordResetMailModel = new PasswordResetMailModel(user.FirstName, user.LastName, passwordResetUrlWithKey);
+            var message = new MailMessage<PasswordResetMailModel>(user.Email, MailResources.PasswordResetMail_Subject, MailResources.PasswordResetMail_Body, passwordResetMailModel);
+
+            await _mailService.SendMail(message);
         }
 
         /// <summary>
@@ -125,7 +129,7 @@ namespace FreeSecur.API.Logic.UserLogic
             var userToEdit = await _entityRepository.GetEntity<User>(x => x.Id == userId);
 
             userToEdit.Email = string.IsNullOrWhiteSpace(userUpdateModel.Email) ? userToEdit.Email : userUpdateModel.Email;
-            userToEdit.FirstName = string.IsNullOrWhiteSpace(userUpdateModel.FirstName) ? userToEdit.FirstName: userUpdateModel.FirstName;
+            userToEdit.FirstName = string.IsNullOrWhiteSpace(userUpdateModel.FirstName) ? userToEdit.FirstName : userUpdateModel.FirstName;
             userToEdit.LastName = string.IsNullOrWhiteSpace(userUpdateModel.LastName) ? userToEdit.LastName : userUpdateModel.LastName;
 
             var updatedEntity = await _entityRepository.UpdateEntity(userToEdit, null);

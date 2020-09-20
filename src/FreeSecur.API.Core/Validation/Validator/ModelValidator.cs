@@ -3,6 +3,7 @@ using FreeSecur.API.Core.Validation.Attributes;
 using FreeSecur.API.Core.Validation.ErrorCodes;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace FreeSecur.API.Core.Validation.Validator
@@ -74,8 +75,10 @@ namespace FreeSecur.API.Core.Validation.Validator
                 .Select(attribute => (IValidationAttribute)attribute)
                 .ToList();
 
+            var validationContext =  new ValidationContext(mainObject);
+
             var errorCodes = validationAttributes
-                .Where(validationAttrbute => !validationAttrbute.IsValid(propertyValue))
+                .Where(validationAttrbute => validationAttrbute.IsValid(propertyValue, validationContext) != null)
                 .Select(validationAttribute => validationAttribute.GetErrorCode())
                 .ToList();
 

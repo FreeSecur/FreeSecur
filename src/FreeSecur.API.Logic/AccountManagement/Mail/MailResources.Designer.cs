@@ -85,5 +85,29 @@ namespace FreeSecur.API.Logic.AccountManagement.Mail {
                 return ResourceManager.GetString("ConfirmEmail_Subject", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hello {FirstName},
+        ///
+        ///You&apos;ve requested to reset your password for FreeSecur. Please click the following link to reset your password: {PasswordResetUrl}
+        ///
+        ///With Regards,
+        ///
+        ///FreeSecur.
+        /// </summary>
+        public static string PasswordResetMail_Body {
+            get {
+                return ResourceManager.GetString("PasswordResetMail_Body", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FreeSecur Password Reset.
+        /// </summary>
+        public static string PasswordResetMail_Subject {
+            get {
+                return ResourceManager.GetString("PasswordResetMail_Subject", resourceCulture);
+            }
+        }
     }
 }

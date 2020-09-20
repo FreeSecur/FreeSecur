@@ -5,6 +5,7 @@
         Required,
         MinLength,
         EmailAddress,
-        Url
+        Url,
+        Equals
     }
 }

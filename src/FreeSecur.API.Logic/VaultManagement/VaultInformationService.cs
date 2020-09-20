@@ -26,12 +26,26 @@ namespace FreeSecur.API.Logic.VaultManagement
             _dbContext = dbContext;
         }
 
+        public async Task<VaultDetailsModel> GetVaultForAuthorizedUser(long vaultId)
+        {
+            if (!_authenticationService.IsAuthenticated) throw new StatusCodeException(System.Net.HttpStatusCode.Unauthorized);
+
+            var ownerId = _authenticationService.UserId;
+            var vault = await _dbContext.Vaults
+                .Where(x => x.Owners.Any(x => x.OwnerId == ownerId) && x.Id == vaultId)
+                .Select(vault => new VaultDetailsModel(vault.Id, vault.Name))
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
+
+            if (vault == null) throw new StatusCodeException(System.Net.HttpStatusCode.NotFound);
+
+            return vault;
+        }
+
+
         public async Task<List<VaultDetailsModel>> GetVaultsForAuthorizedUser()
         {
-            if (!_authenticationService.IsAuthenticated)
-            {
-                throw new StatusCodeException(System.Net.HttpStatusCode.Unauthorized);
-            }
+            if (!_authenticationService.IsAuthenticated) throw new StatusCodeException(System.Net.HttpStatusCode.Unauthorized);
 
             var ownerId = _authenticationService.UserId;
             var vaults = await _dbContext.Vaults

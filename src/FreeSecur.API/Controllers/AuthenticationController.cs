@@ -24,7 +24,7 @@ namespace FreeSecur.API.Controllers
             _accessManagementService = accessManagementService;
         }
 
-        [HttpPost("login")]
+        [HttpPost("Login")]
         [AllowAnonymous]
         [SwaggerResponse((int)HttpStatusCode.OK, "Login token", typeof(string))]
         [SwaggerResponse(ExceptionStatusCode.ErrorCodeException, "Login error", typeof(LoginErrorCode))]

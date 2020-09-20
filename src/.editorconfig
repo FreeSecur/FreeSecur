@@ -1,0 +1,7 @@
+﻿[*.cs]
+
+# IDE0011: Add braces
+csharp_prefer_braces = true:none
+
+# IDE0039: Use local function
+csharp_style_pattern_local_over_anonymous_function = true:none

@@ -39,10 +39,7 @@ namespace FreeSecur.API.Logic.VaultManagement
 
         public async Task<long> CreateVaultForAuthenticatedUser(VaultCreateModel vaultCreateModel)
         {
-            if (!_authenticationService.IsAuthenticated)
-            {
-                throw new StatusCodeException(HttpStatusCode.Unauthorized);
-            }
+            if (!_authenticationService.IsAuthenticated) throw new StatusCodeException(HttpStatusCode.Unauthorized);
 
             var userId = _authenticationService.UserId;
             var user = await _entityRepository.GetEntity<User>(x => x.Id == userId);

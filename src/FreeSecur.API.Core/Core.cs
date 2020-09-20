@@ -8,6 +8,7 @@ using FreeSecur.API.Core.Reflection;
 using FreeSecur.API.Core.Serialization;
 using FreeSecur.API.Core.Url;
 using FreeSecur.API.Core.Validation.Validator;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -42,6 +43,8 @@ namespace FreeSecur.API.Core
             services.AddSingleton<IExceptionHandler<StatusCodeException>, StatusCodeExceptionHandler>();
             services.AddSingleton<IExceptionHandler<ErrorCodeException>, ErrorCodeExceptionHandler>();
             services.AddSingleton<ISmtpClient, FsSmtpClient>();
+
+            services.AddSingleton<IObjectModelValidator, NullObjectModelValidator>();
 
 
             services.Configure<FsMail>(configuration.GetSection(nameof(FsMail)));

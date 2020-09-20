@@ -17,9 +17,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreeSecur.API", "FreeSecur.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreeSecur.API.Core.UnitTests", "Tests\FreeSecur.API.Core.UnitTests\FreeSecur.API.Core.UnitTests.csproj", "{220F5AD8-7758-469A-A7A0-A8141C9E401B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeSecur.API.Logic.UnitTests", "Tests\FreeSecur.API.Logic.UnitTests\FreeSecur.API.Logic.UnitTests.csproj", "{391BA8E0-FF77-4C75-9DCC-64556AC3DFC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreeSecur.API.Logic.UnitTests", "Tests\FreeSecur.API.Logic.UnitTests\FreeSecur.API.Logic.UnitTests.csproj", "{391BA8E0-FF77-4C75-9DCC-64556AC3DFC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeSecur.API.Mocks", "Tests\FreeSecur.API.Mocks\FreeSecur.API.Mocks.csproj", "{F1917FD2-3C01-41D6-A5F3-91E9FC45B1AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreeSecur.API.Mocks", "Tests\FreeSecur.API.Mocks\FreeSecur.API.Mocks.csproj", "{F1917FD2-3C01-41D6-A5F3-91E9FC45B1AD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{20917AFD-1735-4A6C-8C6E-D4A2A7429864}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
