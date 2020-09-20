@@ -9,14 +9,11 @@ namespace FreeSecur.API.Logic.AccountManagement.Models
     public class UserRegistrationResponseModel
     {
         public UserRegistrationResponseModel(
-            long id,
-            string confirmationKey)
+            long id)
         {
             Id = id;
-            ConfirmationKey = confirmationKey;
         }
 
         public long Id { get; }
-        public string ConfirmationKey { get; }
     }
 }

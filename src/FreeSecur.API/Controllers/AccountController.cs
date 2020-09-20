@@ -1,8 +1,5 @@
 ﻿using FreeSecur.API.Utils;
-using FreeSecur.API.Core.ExceptionHandling.Exceptions;
-using FreeSecur.API.Core.Url;
 using FreeSecur.API.Logic.AccountManagement.Models;
-using FreeSecur.API.Logic.UserLogic;
 using FreeSecur.API.Logic.UserLogic.Models;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -12,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using FreeSecur.API.Logic.VaultManagement.Models;
 using System.Collections.Generic;
 using FreeSecur.API.Logic.VaultManagement;
+using FreeSecur.API.Logic.AccountManagement;
 
 namespace FreeSecur.API.Controllers
 {
@@ -58,6 +56,23 @@ namespace FreeSecur.API.Controllers
         public async Task<List<VaultDetailsModel>> GetVaultsForAccount()
         {
             return await _vaultInformationService.GetVaultsForAuthorizedUser();
+        }
+
+        [HttpPost("RequestPasswordReset")]
+        [AllowAnonymous]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Password reset mail send")]
+        [SwaggerOperation(Description = "Will send a password reset email to the requested e-mail address")]
+        public async Task RequestPasswordReset(UserRequestPasswordResetModel userRequestPasswordResetModel)
+        {
+            await _accountManagementService.RequestPasswordReset(userRequestPasswordResetModel);
+        }
+
+        [HttpPatch("ResetPassword")]
+        [AllowAnonymous]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Password is reset")]
+        public async Task ResetPassword(UserPasswordResetModel userPasswordResetModel)
+        {
+            await _accountManagementService.ResetPassword(userPasswordResetModel);
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using FreeSecur.API.Core;
 using FreeSecur.API.Logic.AccessManagement;
 using FreeSecur.API.Logic.VaultManagement;
+using FreeSecur.API.Logic.AccountManagement;
 
 namespace FreeSecur.API.Logic
 {
@@ -16,8 +17,7 @@ namespace FreeSecur.API.Logic
             fsCoreConfigurer.Services.AddTransient<VaultCreationService>();
             fsCoreConfigurer.Services.AddTransient<VaultInformationService>();
             fsCoreConfigurer.Services.AddTransient<VaultItemService>();
-
-
+            fsCoreConfigurer.Services.AddTransient<IVerificationService, VerificationService>();
 
             return fsCoreConfigurer;
         }

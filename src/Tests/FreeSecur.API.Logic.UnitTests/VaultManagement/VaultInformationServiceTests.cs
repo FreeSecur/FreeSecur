@@ -23,7 +23,6 @@ namespace FreeSecur.API.Logic.UnitTests.VaultManagement
             var target = new VaultInformationService(authenticationService, dbContext);
 
             var validVaultId = MockEntities.TestVault().Id;
-            var validUserId = MockEntities.TestUser().Id;
 
             var actual = await target.GetVaultForAuthorizedUser(validVaultId);
 

@@ -131,4 +131,16 @@ FreeSecur
   <data name="ConfirmEmail_Subject" xml:space="preserve">
     <value>FreeSecur Account Confirmation</value>
   </data>
+  <data name="PasswordResetMail_Body" xml:space="preserve">
+    <value>Hello {FirstName},
+
+You've requested to reset your password for FreeSecur. Please click the following link to reset your password: {PasswordResetUrl}
+
+With Regards,
+
+FreeSecur</value>
+  </data>
+  <data name="PasswordResetMail_Subject" xml:space="preserve">
+    <value>FreeSecur Password Reset</value>
+  </data>
 </root>

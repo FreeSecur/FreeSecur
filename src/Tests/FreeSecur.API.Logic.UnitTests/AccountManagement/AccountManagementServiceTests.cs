@@ -1,7 +1,11 @@
-﻿using FreeSecur.API.Logic.UserLogic;
+﻿using FreeSecur.API.Logic.AccountManagement;
+using FreeSecur.API.Logic.AccountManagement.Models;
+using FreeSecur.API.Logic.UserLogic;
 using FreeSecur.API.Logic.UserLogic.Models;
 using FreeSecur.API.Mocks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +20,6 @@ namespace FreeSecur.API.Logic.UnitTests.AccountManagement
         [TestMethod]
         public async Task RegistrationFlowShouldWork()
         {
-            var dbContext = MockServices.DbContextMock();
-            var target = CreateAccountManagementService(dbContext);
-
             var registrationModel = new UserRegistrationModel
             {
                 ConfirmationUrl = "https://test.nl",
@@ -29,6 +30,17 @@ namespace FreeSecur.API.Logic.UnitTests.AccountManagement
                 Username = "dafsdf"
             };
 
+            var dbContext = MockServices.DbContextMock();
+            var verificationServiceMock = MockServices.VerificationServiceMock();
+            verificationServiceMock.Setup(x => x.ValidateVerificationKey(It.IsAny<string>(), It.IsAny<UserVerificationType>())).ReturnsAsync(() =>
+            {
+                return dbContext.Users.SingleAsync(x => x.Email == registrationModel.Email).Result;
+            });
+
+            var target = CreateAccountManagementService(dbContext, verificationServiceMock.Object);
+
+            
+
             var result = await target.Register(registrationModel);
 
             var userPart1 = dbContext.Users.Single(x => x.Username == registrationModel.Username);
@@ -36,7 +48,8 @@ namespace FreeSecur.API.Logic.UnitTests.AccountManagement
 
             dbContext.Entry(userPart1).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
 
-            await target.ConfirmEmail(result.ConfirmationKey);
+            var fakeKey = "dsfsfd";
+            await target.ConfirmEmail(fakeKey);
 
             var user = dbContext.Users.Single(x => x.Username == registrationModel.Username);
 
@@ -74,14 +87,21 @@ namespace FreeSecur.API.Logic.UnitTests.AccountManagement
             Assert.AreEqual(expectedFirstName, user.FirstName);
         }
 
-        private static AccountManagementService CreateAccountManagementService(Domain.FsDbContext dbContext)
+        private static AccountManagementService CreateAccountManagementService(Domain.FsDbContext dbContext, IVerificationService verificationService = null)
         {
             var entityRepostitory = MockServices.EntityRepositoryMock(dbContext);
             var hashServiceMock = MockServices.HashServiceMock().Object;
             var mailService = MockServices.MailServiceMock().Object;
-            var encryptionService = MockServices.EncryptionServiceMock();
             var authenticationService = MockServices.AuthenticationServiceMock().Object;
-            var target = new AccountManagementService(entityRepostitory, hashServiceMock, mailService, encryptionService, dbContext, authenticationService);
+            var verificationServiceMock = verificationService ?? MockServices.VerificationServiceMock().Object;
+
+            var target = new AccountManagementService(
+                entityRepostitory, 
+                hashServiceMock, 
+                mailService, 
+                dbContext,
+                authenticationService,
+                verificationServiceMock);
             return target;
         }
     }

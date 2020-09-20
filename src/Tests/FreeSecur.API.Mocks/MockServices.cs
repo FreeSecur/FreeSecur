@@ -2,7 +2,10 @@
 using FreeSecur.API.Core.GeneralHelpers;
 using FreeSecur.API.Core.Mailing;
 using FreeSecur.API.Domain;
+using FreeSecur.API.Domain.Entities.Users;
 using FreeSecur.API.Logic.AccessManagement;
+using FreeSecur.API.Logic.AccountManagement;
+using FreeSecur.API.Logic.AccountManagement.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Moq;
@@ -91,6 +94,17 @@ namespace FreeSecur.API.Mocks
 
             mock.Setup(x => x.GetHash(It.IsAny<string>())).Returns(getHashFunc);
             mock.Setup(x => x.Verify(It.IsNotIn<string>(), It.IsNotIn<string>(), It.IsNotIn<string>())).Returns(verifyHashFunc);
+
+            return mock;
+        }
+
+        public static Mock<IVerificationService> VerificationServiceMock()
+        {
+            var mock = new Mock<IVerificationService>();
+
+            mock.Setup(x => x.CreateVerificationKey(It.IsAny<User>(), It.IsAny<UserVerificationType>())).Returns("1234");
+            mock.Setup(x => x.CreateVerificationUrl(It.IsAny<string>(), It.IsAny<User>(), It.IsAny<UserVerificationType>())).Returns("sdfdsfsd");
+            mock.Setup(x => x.ValidateVerificationKey(It.IsAny<string>(), It.IsAny<UserVerificationType>())).ReturnsAsync(MockEntities.TestUser());
 
             return mock;
         }
