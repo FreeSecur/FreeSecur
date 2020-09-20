@@ -80,6 +80,14 @@ namespace FreeSecur.API.Logic.AccountManagement
                 throw;
             }
         }
+        public async Task SendConfirmEmailMail(User user, string confirmationUrl)
+        {
+            var confirmationUrlWithKey = _verificationService.CreateVerificationUrl(confirmationUrl, user, UserVerificationType.ConfirmEmail);
+            var confirmationMailModel = new ConfirmationMailModel(confirmationUrlWithKey, user.FirstName, user.LastName);
+            var message = new MailMessage<ConfirmationMailModel>(user.Email, MailResources.ConfirmEmail_Subject, MailResources.ConfirmEmail_Body, confirmationMailModel);
+
+            await _mailService.SendMail(message);
+        }
 
         public async Task ResetPassword(UserPasswordResetModel userPasswordResetModel)
         {
@@ -104,15 +112,6 @@ namespace FreeSecur.API.Logic.AccountManagement
             var passwordResetUrlWithKey = _verificationService.CreateVerificationUrl(resetModel.PasswordResetUrl, user, UserVerificationType.PasswordReset);
             var passwordResetMailModel = new PasswordResetMailModel(user.FirstName, user.LastName, passwordResetUrlWithKey);
             var message = new MailMessage<PasswordResetMailModel>(user.Email, MailResources.PasswordResetMail_Subject, MailResources.PasswordResetMail_Body, passwordResetMailModel);
-
-            await _mailService.SendMail(message);
-        }
-
-        public async Task SendConfirmEmailMail(User user, string confirmationUrl)
-        {
-            var confirmationUrlWithKey = _verificationService.CreateVerificationUrl(confirmationUrl, user, UserVerificationType.ConfirmEmail);
-            var confirmationMailModel = new ConfirmationMailModel(confirmationUrlWithKey, user.FirstName, user.LastName);
-            var message = new MailMessage<ConfirmationMailModel>(user.Email, MailResources.ConfirmEmail_Subject, MailResources.ConfirmEmail_Body, confirmationMailModel);
 
             await _mailService.SendMail(message);
         }
